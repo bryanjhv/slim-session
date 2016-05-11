@@ -57,22 +57,8 @@ class Session extends \Slim\Middleware
      */
     public function call()
     {
-        $this->registerHelper();
         $this->startSession();
         $this->next->call();
-    }
-
-    /**
-     * Register helper
-     *
-     * It registers a session helper singleton to $app->session, so you can use
-     * that to manage sessions or instantiate the helper class for yourself.
-     */
-    protected function registerHelper()
-    {
-        $this->app->container->singleton('session', function () {
-            return new \SlimSession\Helper;
-        });
     }
 
     /**

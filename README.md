@@ -9,7 +9,7 @@ superglobal.
 Include this line in your `composer.json`:
 
 ```
-"bryanjhv/slim-session": "~1.0"
+"bryanjhv/slim-session": "~2.0"
 ```
 
 ## Usage
@@ -37,27 +37,35 @@ $app->add(new \Slim\Middleware\Session(
 
 ## Session helper
 
-This package also ships a `Helper` class and registers it to `$app->session` so
-you can do:
+This package also ships a `Helper` class ~~and registers it to `$app->session`
+so you can do~~ which you need to register or instance if you want to use it:
+
+```php
+$app->container->singleton('session', function () {
+  return new \SlimSession\Helper;
+});
+```
+
+This will provide you `$app->session`, so you can simply do:
 
 ```php
 $app->get('/', function () use ($app) {
-  $session = new \SlimSession\Helper; // or $app->session
-  
+  $session = new \SlimSession\Helper; // or $app->session if registered
+
   // Get a variable
   $key = $session->get('key', 'default');
   $st = $session->st;
-  
+
   // Set a variable
   $session->my_key = 'my_value';
   $app->session->set('a', 'var');
-  
+
   // Remove variable
   $session->remove('a_var');
-  
+
   // Destroy session
   $session::destroy();
-  
+
   // Get current session id
   $id = $app->session::id();
 });
@@ -65,7 +73,7 @@ $app->get('/', function () use ($app) {
 
 ## TODO
 
-Tests!
+Tests (still)!
 
 ## License
 
