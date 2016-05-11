@@ -1,7 +1,6 @@
 {
   "name": "bryanjhv/slim-session",
   "description": "Session middleware and helper for Slim framework 2.",
-  "version": "1.0.0",
   "type": "library",
   "keywords": [
     "slim",
@@ -15,7 +14,7 @@
     {
       "name": "Bryan Horna",
       "email": "bryanjhv@gmail.com",
-      "homepage": "http://bryanjhv.me",
+      "homepage": "https://bryanjhv.xyz",
       "role": "developer"
     }
   ],
