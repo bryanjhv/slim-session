@@ -9,7 +9,7 @@ superglobal.
 Include this line in your `composer.json`:
 
 ```
-"bryanjhv/slim-session": "~2.0"
+"bryanjhv/slim-session": "~2.1"
 ```
 
 ## Usage
