@@ -66,12 +66,7 @@ class Session extends \Slim\Middleware
      */
     protected function startSession()
     {
-        if (session_id()) {
-            return;
-        }
-
         $settings = $this->settings;
-        $name = $settings['name'];
 
         session_set_cookie_params(
             $settings['lifetime'],
@@ -80,20 +75,24 @@ class Session extends \Slim\Middleware
             $settings['secure'],
             $settings['httponly']
         );
+
+        if (session_id()) {
+            if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
+                setcookie(
+                    $name,
+                    $_COOKIE[$name],
+                    time() + $settings['lifetime'],
+                    $settings['path'],
+                    $settings['domain'],
+                    $settings['secure'],
+                    $settings['httponly']
+                );
+            }
+        }
+
+        $name = $settings['name'];
         session_name($name);
         session_cache_limiter(false);
         session_start();
-
-        if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
-            setcookie(
-                $name,
-                $_COOKIE[$name],
-                time() + $settings['lifetime'],
-                $settings['path'],
-                $settings['domain'],
-                $settings['secure'],
-                $settings['httponly']
-            );
-        }
     }
 }
