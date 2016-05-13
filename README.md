@@ -1,28 +1,29 @@
 # slim-session
 
-Simple middleware for Slim Framework 2, that allows managing PHP built-in
+Simple middleware for Slim Framework 3, that allows managing PHP built-in
 sessions and includes a `Helper` class to help you with the `$_SESSION`
 superglobal.
+
+**For the middleware version for Slim Framework 2, please check out the `slim-2`
+branch in this repository.**
 
 ## Installation
 
 Include this line in your `composer.json`:
 
 ```
-"bryanjhv/slim-session": "~2.1"
+"bryanjhv/slim-session": "~3.0"
 ```
 
 ## Usage
 
-The namespace for the middleware is the same as normal, so:
-
 ```php
-$app = new \Slim\Slim;
-$app->add(new \Slim\Middleware\Session(
+$app = new \Slim\App;
+$app->add(new \Slim\Middleware\Session([
   'name' => 'dummy_session',
   'autorefresh' => true,
   'lifetime' => '1 hour'
-));
+]));
 ```
 
 ### Supported options
@@ -37,20 +38,22 @@ $app->add(new \Slim\Middleware\Session(
 
 ## Session helper
 
-This package also ships a `Helper` class ~~and registers it to `$app->session`
-so you can do~~ which you need to register or instance if you want to use it:
+This package also ships with a `Helper` class which you need to register in the
+container or instance as an object if you want to use it:
 
 ```php
-$app->container->singleton('session', function () {
+$container = $app->getContainer();
+
+$container['session'] = function ($c) {
   return new \SlimSession\Helper;
-});
+};
 ```
 
 This will provide you `$app->session`, so you can simply do:
 
 ```php
-$app->get('/', function () use ($app) {
-  $session = new \SlimSession\Helper; // or $app->session if registered
+$app->get('/', function () {
+  $session = new \SlimSession\Helper; // or $this->session if registered
 
   // Get a variable
   $key = $session->get('key', 'default');
@@ -67,13 +70,13 @@ $app->get('/', function () use ($app) {
   $session::destroy();
 
   // Get current session id
-  $id = $app->session::id();
+  $id = $this->session::id();
 });
 ```
 
 ## TODO
 
-Tests (still)!
+Tests (still, still)!
 
 ## License
 

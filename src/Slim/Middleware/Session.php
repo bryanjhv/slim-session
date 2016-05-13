@@ -2,6 +2,9 @@
 
 namespace Slim\Middleware;
 
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+
 /**
  * Session middleware
  *
@@ -18,7 +21,7 @@ namespace Slim\Middleware;
  * @package Slim\Middleware
  * @author  Bryan Horna
  */
-class Session extends \Slim\Middleware
+class Session
 {
     /**
      * @var array
@@ -30,18 +33,19 @@ class Session extends \Slim\Middleware
      *
      * @param array $settings
      */
-    public function __construct($settings = array())
+    public function __construct($settings = [])
     {
-        $defaults = array(
-            'lifetime' => '20 minutes',
-            'path' => '/',
-            'domain' => null,
-            'secure' => false,
-            'httponly' => false,
-            'name' => 'slim_session',
-            'autorefresh' => false
-        );
+        $defaults = [
+            'lifetime'    => '20 minutes',
+            'path'        => '/',
+            'domain'      => null,
+            'secure'      => false,
+            'httponly'    => false,
+            'name'        => 'slim_session',
+            'autorefresh' => false,
+        ];
         $settings = array_merge($defaults, $settings);
+
         if (is_string($lifetime = $settings['lifetime'])) {
             $settings['lifetime'] = strtotime($lifetime) - time();
         }
@@ -53,12 +57,19 @@ class Session extends \Slim\Middleware
     }
 
     /**
-     * Call
+     * Called when middleware needs to be executed.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request  PSR7 request
+     * @param \Psr\Http\Message\ResponseInterface      $response PSR7 response
+     * @param callable                                 $next     Next middleware
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function call()
+    public function __invoke(Request $request, Response $response, callable $next)
     {
         $this->startSession();
-        $this->next->call();
+
+        return $next($request, $response);
     }
 
     /**
