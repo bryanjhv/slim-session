@@ -78,6 +78,7 @@ class Session
     protected function startSession()
     {
         $settings = $this->settings;
+        $name = $settings['name'];
 
         session_set_cookie_params(
             $settings['lifetime'],
@@ -88,7 +89,8 @@ class Session
         );
 
         if (session_id()) {
-            if ($settings['autorefresh'] && isset($_COOKIE[$settings['name']])) {
+
+            if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
                 setcookie(
                     $name,
                     $_COOKIE[$name],
@@ -101,7 +103,6 @@ class Session
             }
         }
 
-        $name = $settings['name'];
         session_name($name);
         session_cache_limiter(false);
         session_start();
