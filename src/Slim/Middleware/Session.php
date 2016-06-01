@@ -67,6 +67,7 @@ class Session extends \Slim\Middleware
     protected function startSession()
     {
         $settings = $this->settings;
+        $name = $settings['name'];
 
         session_set_cookie_params(
             $settings['lifetime'],
@@ -90,7 +91,6 @@ class Session extends \Slim\Middleware
             }
         }
 
-        $name = $settings['name'];
         session_name($name);
         session_cache_limiter(false);
         session_start();
