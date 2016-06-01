@@ -89,7 +89,6 @@ class Session
         );
 
         if (session_id()) {
-
             if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
                 setcookie(
                     $name,
