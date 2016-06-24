@@ -64,7 +64,7 @@ $app->get('/', function () {
   $app->session->set('a', 'var');
 
   // Remove variable
-  $session->remove('a_var');
+  $session->delete('a_var');
 
   // Destroy session
   $session::destroy();
