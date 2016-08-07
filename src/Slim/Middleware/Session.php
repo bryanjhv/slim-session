@@ -99,7 +99,6 @@ class Session
         }
 
         session_name($name);
-        session_cache_limiter(false);
         session_start();
     }
 }
