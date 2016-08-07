@@ -50,10 +50,6 @@ class Session
             $settings['lifetime'] = strtotime($lifetime) - time();
         }
         $this->settings = $settings;
-
-        ini_set('session.gc_probability', 1);
-        ini_set('session.gc_divisor', 1);
-        ini_set('session.gc_maxlifetime', 30 * 24 * 60 * 60);
     }
 
     /**
@@ -103,7 +99,6 @@ class Session
         }
 
         session_name($name);
-        session_cache_limiter(false);
         session_start();
     }
 }
