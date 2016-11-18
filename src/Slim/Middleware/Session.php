@@ -88,7 +88,9 @@ class Session
             $settings['httponly']
         );
 
-        if (session_id()) {
+        $active = session_status() === PHP_SESSION_ACTIVE;
+
+        if ($active) {
             if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
                 setcookie(
                     $name,
@@ -104,6 +106,8 @@ class Session
 
         session_name($name);
         session_cache_limiter(false);
-        session_start();
+        if (!$active) {
+            session_start();
+        }
     }
 }
