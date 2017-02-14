@@ -55,16 +55,25 @@ This will provide you `$app->session`, so you can simply do:
 $app->get('/', function () {
   $session = new \SlimSession\Helper; // or $this->session if registered
 
+  // Check if a variable exists
+  $exists = $session->exists('my_key');
+  $exists = isset($session->my_key);
+  $exists = isset($session['my_key']);
+  
   // Get a variable
-  $key = $session->get('key', 'default');
-  $st = $session->st;
+  $my_value = $session->get('my_key', 'default');
+  $my_value = $session->my_key;
+  $my_value = $session['my_key'];
 
   // Set a variable
+  $app->session->set('my_key', 'my_value');
   $session->my_key = 'my_value';
-  $app->session->set('a', 'var');
+  $session['my_key'] = 'my_value';
 
   // Remove variable
-  $session->delete('a_var');
+  $session->delete('my_key');
+  unset($session->my_key);
+  unset($session['my_key']);
 
   // Destroy session
   $session::destroy();
