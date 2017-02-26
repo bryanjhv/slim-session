@@ -23,8 +23,8 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
     public function get($key, $default = null)
     {
         return $this->exists($key)
-          ? $_SESSION[$key]
-          : $default;
+            ? $_SESSION[$key]
+            : $default;
     }
 
     /**
@@ -99,13 +99,13 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
             if (ini_get('session.use_cookies')) {
                 $params = session_get_cookie_params();
                 setcookie(
-                  session_name(),
-                  '',
-                  time() - 4200,
-                  $params['path'],
-                  $params['domain'],
-                  $params['secure'],
-                  $params['httponly']
+                    session_name(),
+                    '',
+                    time() - 4200,
+                    $params['path'],
+                    $params['domain'],
+                    $params['secure'],
+                    $params['httponly']
                 );
             }
         }
@@ -157,14 +157,9 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Count elements of an object
+     * Count elements of an object.
      *
-     * @link  http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
-     * @since 5.1.0
+     * @return int
      */
     public function count()
     {
@@ -172,12 +167,9 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Retrieve an external iterator
+     * Retrieve an external Iterator.
      *
-     * @link  http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return \Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     * @since 5.0.0
+     * @return \Traversable
      */
     public function getIterator()
     {
@@ -185,17 +177,11 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Whether a offset exists
+     * Whether an array offset exists.
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param mixed $offset <p>
-     *                      An offset to check for.
-     *                      </p>
-     * @return boolean true on success or false on failure.
-     *                      </p>
-     *                      <p>
-     *                      The return value will be casted to boolean if non-boolean was returned.
-     * @since 5.0.0
+     * @param mixed $offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset)
     {
@@ -203,14 +189,11 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Offset to retrieve
+     * Retrieve value by offset.
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param mixed $offset <p>
-     *                      The offset to retrieve.
-     *                      </p>
-     * @return mixed Can return all value types.
-     * @since 5.0.0
+     * @param mixed $offset
+     *
+     * @return mixed
      */
     public function offsetGet($offset)
     {
@@ -218,17 +201,10 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Offset to set
+     * Set a value by offset.
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset <p>
-     *                      The offset to assign the value to.
-     *                      </p>
-     * @param mixed $value  <p>
-     *                      The value to set.
-     *                      </p>
-     * @return void
-     * @since 5.0.0
+     * @param mixed $offset
+     * @param mixed $value
      */
     public function offsetSet($offset, $value)
     {
@@ -236,14 +212,9 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * Offset to unset
+     * Remove a value by offset.
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset <p>
-     *                      The offset to unset.
-     *                      </p>
-     * @return void
-     * @since 5.0.0
+     * @param mixed $offset
      */
     public function offsetUnset($offset)
     {
