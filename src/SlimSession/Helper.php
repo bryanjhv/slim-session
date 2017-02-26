@@ -10,7 +10,7 @@ namespace SlimSession;
  *
  * @package SlimSession
  */
-class Helper
+class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
      * Get a session variable.
@@ -55,7 +55,7 @@ class Helper
      */
     public function clear()
     {
-        $_SESSION = array();
+        $_SESSION = [];
     }
 
     /**
@@ -65,7 +65,7 @@ class Helper
      *
      * @return bool
      */
-    protected function exists($key)
+    public function exists($key)
     {
         return array_key_exists($key, $_SESSION);
     }
@@ -154,5 +154,70 @@ class Helper
     public function __isset($key)
     {
         return $this->exists($key);
+    }
+
+    /**
+     * Count elements of an object.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($_SESSION);
+    }
+
+    /**
+     * Retrieve an external Iterator.
+     *
+     * @return \Traversable
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($_SESSION);
+    }
+
+    /**
+     * Whether an array offset exists.
+     *
+     * @param mixed $offset
+     *
+     * @return boolean
+     */
+    public function offsetExists($offset)
+    {
+        return $this->exists($offset);
+    }
+
+    /**
+     * Retrieve value by offset.
+     *
+     * @param mixed $offset
+     *
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    /**
+     * Set a value by offset.
+     *
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->set($offset, $value);
+    }
+
+    /**
+     * Remove a value by offset.
+     *
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset)
+    {
+        $this->delete($offset);
     }
 }
