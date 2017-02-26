@@ -85,7 +85,8 @@ $app->get('/', function () {
 
 ## TODO
 
-Tests (still, still)!
+- Complete `Helper` tests. (thanks @Zemistr)
+- Slim-specific tests (integration with Slim App).
 
 ## License
 
