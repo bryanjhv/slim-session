@@ -88,17 +88,38 @@ class HelperTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($_SESSION);
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testId()
     {
         $helper = new Helper();
 
         $this->assertSame(session_id(), $helper::id());
-        $this->markTestIncomplete('Please implement check for "::id(true)"');
+        $this->assertNotSame(session_id(), $sessionId = $helper::id(true));
+        $this->assertSame(session_id(), $sessionId);
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testDestroy()
     {
-        $this->markTestIncomplete('Please implement check for "::destroy"');
+        $helper = new Helper();
+
+        $_SESSION = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
+
+        $this->assertNotEmpty($helper::id());
+        $this->assertNotEmpty(session_id());
+        $this->assertNotEmpty($_SESSION);
+
+        $helper::destroy();
+
+        $this->assertEmpty($helper::id());
+        $this->assertEmpty(session_id());
+        $this->assertEmpty($_SESSION);
+
+        $this->markTestIncomplete('Please finish test for "::destroy".');
     }
 
     public function testCount()
