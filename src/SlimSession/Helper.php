@@ -100,8 +100,6 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Destroy the session.
-     *
-     * @return $this
      */
     public static function destroy()
     {
@@ -123,8 +121,6 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
                 );
             }
         }
-
-        return $this;
     }
 
     /**
