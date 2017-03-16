@@ -32,30 +32,42 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param string $key
      * @param mixed  $value
+     *
+     * @return $this
      */
     public function set($key, $value)
     {
         $_SESSION[$key] = $value;
+
+        return $this;
     }
 
     /**
      * Delete a session variable.
      *
      * @param string $key
+     *
+     * @return $this
      */
     public function delete($key)
     {
         if ($this->exists($key)) {
             unset($_SESSION[$key]);
         }
+
+        return $this;
     }
 
     /**
      * Clear all session variables.
+     *
+     * @return $this
      */
     public function clear()
     {
         $_SESSION = [];
+
+        return $this;
     }
 
     /**
@@ -88,6 +100,8 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Destroy the session.
+     *
+     * @return $this
      */
     public static function destroy()
     {
@@ -109,6 +123,8 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
                 );
             }
         }
+
+        return $this;
     }
 
     /**
@@ -205,19 +221,27 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param mixed $offset
      * @param mixed $value
+     *
+     * @return $this
      */
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
+
+        return $this;
     }
 
     /**
      * Remove a value by offset.
      *
      * @param mixed $offset
+     *
+     * @return $this
      */
     public function offsetUnset($offset)
     {
         $this->delete($offset);
+
+        return $this;
     }
 }
