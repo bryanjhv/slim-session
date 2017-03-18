@@ -217,27 +217,19 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param mixed $offset
      * @param mixed $value
-     *
-     * @return $this
      */
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
-
-        return $this;
     }
 
     /**
      * Remove a value by offset.
      *
      * @param mixed $offset
-     *
-     * @return $this
      */
     public function offsetUnset($offset)
     {
         $this->delete($offset);
-
-        return $this;
     }
 }
