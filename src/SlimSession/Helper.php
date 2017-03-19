@@ -32,30 +32,42 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param string $key
      * @param mixed  $value
+     *
+     * @return $this
      */
     public function set($key, $value)
     {
         $_SESSION[$key] = $value;
+
+        return $this;
     }
 
     /**
      * Delete a session variable.
      *
      * @param string $key
+     *
+     * @return $this
      */
     public function delete($key)
     {
         if ($this->exists($key)) {
             unset($_SESSION[$key]);
         }
+
+        return $this;
     }
 
     /**
      * Clear all session variables.
+     *
+     * @return $this
      */
     public function clear()
     {
         $_SESSION = [];
+
+        return $this;
     }
 
     /**
