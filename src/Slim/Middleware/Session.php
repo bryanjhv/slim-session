@@ -87,27 +87,22 @@ class Session
             $settings['secure'],
             $settings['httponly']
         );
-
-        $active = session_status() === PHP_SESSION_ACTIVE;
-
-        if ($active) {
-            if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
-                setcookie(
-                    $name,
-                    $_COOKIE[$name],
-                    time() + $settings['lifetime'],
-                    $settings['path'],
-                    $settings['domain'],
-                    $settings['secure'],
-                    $settings['httponly']
-                );
-            }
-        }
-
         session_name($name);
         session_cache_limiter(false);
-        if (!$active) {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
+        }
+
+        if (session_status() === PHP_SESSION_ACTIVE && $settings['autorefresh'] && isset($_COOKIE[$name])) {
+            setcookie(
+                $name,
+                $_COOKIE[$name],
+                time() + $settings['lifetime'],
+                $settings['path'],
+                $settings['domain'],
+                $settings['secure'],
+                $settings['httponly']
+            );
         }
     }
 }
