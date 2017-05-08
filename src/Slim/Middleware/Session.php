@@ -88,7 +88,6 @@ class Session
             $settings['httponly']
         );
 
-
 	$inactive = session_status() === PHP_SESSION_NONE; // ignore PHP_SESSION_DISABLED 
 	if ($inactive) {
 		// when using $active = session_status() === PHP_SESSION_ACTIVE; 
@@ -110,9 +109,5 @@ class Session
 	if ($inactive) {
 	    session_start();
 	}
-
-
-
-
     }
 }
