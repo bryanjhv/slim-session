@@ -88,26 +88,31 @@ class Session
             $settings['httponly']
         );
 
-        $active = session_status() === PHP_SESSION_ACTIVE;
 
-        if ($active) {
-            if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
-                setcookie(
-                    $name,
-                    $_COOKIE[$name],
-                    time() + $settings['lifetime'],
-                    $settings['path'],
-                    $settings['domain'],
-                    $settings['secure'],
-                    $settings['httponly']
-                );
-            }
-        }
+	$inactive = session_status() === PHP_SESSION_NONE; // ignore PHP_SESSION_DISABLED 
+	if ($inactive) {
+		// when using $active = session_status() === PHP_SESSION_ACTIVE; 
+		// this line never called, so the lifetime never ascending
+    		if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
+	        	setcookie(
+            			$name,
+            			$_COOKIE[$name],
+        	    		time() + $settings['lifetime'],
+        	    		$settings['path'],
+				$settings['domain'],
+        	    		$settings['secure'],
+		            	$settings['httponly']
+        		);
+    		}
+	}
+	session_name($name);
+	session_cache_limiter(false);
+	if ($inactive) {
+	    session_start();
+	}
 
-        session_name($name);
-        session_cache_limiter(false);
-        if (!$active) {
-            session_start();
-        }
+
+
+
     }
 }
