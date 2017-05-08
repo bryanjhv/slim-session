@@ -59,7 +59,7 @@ $app->get('/', function () {
   $exists = $session->exists('my_key');
   $exists = isset($session->my_key);
   $exists = isset($session['my_key']);
-  
+
   // Get a variable
   $my_value = $session->get('my_key', 'default');
   $my_value = $session->my_key;

@@ -88,9 +88,11 @@ class Session
             $settings['httponly']
         );
 
-        $active = session_status() === PHP_SESSION_ACTIVE;
+        $inactive = session_status() === PHP_SESSION_NONE;
 
-        if ($active) {
+        if ($inactive) {
+            // Refresh session cookie when "inactive",
+            // else PHP won't know we want this to refresh
             if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
                 setcookie(
                     $name,
@@ -106,7 +108,7 @@ class Session
 
         session_name($name);
         session_cache_limiter(false);
-        if (!$active) {
+        if ($inactive) {
             session_start();
         }
     }
