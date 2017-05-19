@@ -1,19 +1,27 @@
 # slim-session
 
-Simple middleware for Slim Framework 3, that allows managing PHP built-in
-sessions and includes a `Helper` class to help you with the `$_SESSION`
+Simple middleware for [Slim Framework 3][slim], that allows managing PHP
+built-in sessions and includes a `Helper` class to help you with the `$_SESSION`
 superglobal.
 
 **For the middleware version for Slim Framework 2, please check out the `slim-2`
 branch in this repository.**
 
+
 ## Installation
 
-Include this line in your `composer.json`:
+Add this line to `require` block in your `composer.json`:
 
 ```
 "bryanjhv/slim-session": "~3.0"
 ```
+
+Or, run in a shell instead:
+
+```sh
+composer require bryanjhv/slim-session:~3.0
+```
+
 
 ## Usage
 
@@ -26,51 +34,54 @@ $app->add(new \Slim\Middleware\Session([
 ]));
 ```
 
+
 ### Supported options
 
-* `lifetime`: How long a session can be. Defaults to `20 minutes` (yes, you can
-  pass anything that can be parsed by `strtotime`).
+* `lifetime`: How much should the session last? Default `20 minutes`. Any
+  argument that `strtotime` can parse is valid.
 * `path`, `domain`, `secure`, `httponly`: Options for the session cookie.
 * `name`: Name for the session cookie. Defaults to `slim_session` (instead of
   PHP's `PHPSESSID`).
-* **`autorefresh`**: Set this to `true` if you want the session to be refresh
-  each time a user activity is made.
+* **`autorefresh`**: `true` if you want session to be refresh when user activity
+  is made (interaction with server).
+
 
 ## Session helper
 
-This package also ships with a `Helper` class which you need to register in the
-container or instance as an object if you want to use it:
+A `Helper` class is available, which you can register globally or instantiate:
 
 ```php
 $container = $app->getContainer();
 
+// Register globally to app
 $container['session'] = function ($c) {
   return new \SlimSession\Helper;
 };
 ```
 
-This will provide you `$app->session`, so you can simply do:
+That will provide `$app->session`, so you can do:
 
 ```php
 $app->get('/', function ($req, $res) {
-  $session = new \SlimSession\Helper; // or $this->session if registered
+  // or $this->session if registered
+  $session = new \SlimSession\Helper;
 
-  // Check if a variable exists
+  // Check if variable exists
   $exists = $session->exists('my_key');
   $exists = isset($session->my_key);
   $exists = isset($session['my_key']);
 
-  // Get a variable
+  // Get variable value
   $my_value = $session->get('my_key', 'default');
   $my_value = $session->my_key;
   $my_value = $session['my_key'];
 
-  // Set a variable
+  // Set variable value
   $app->session->set('my_key', 'my_value');
   $session->my_key = 'my_value';
   $session['my_key'] = 'my_value';
 
-  // Remove variable
+  // Delete variable
   $session->delete('my_key');
   unset($session->my_key);
   unset($session['my_key']);
@@ -78,18 +89,29 @@ $app->get('/', function ($req, $res) {
   // Destroy session
   $session::destroy();
 
-  // Get current session id
+  // Get session id
   $id = $this->session::id();
 
   return $res;
 });
 ```
 
+
+## Contributors
+
+[Here][contributors] are the big ones listed. :smile:
+
+
 ## TODO
 
 - Complete `Helper` tests. (thanks @Zemistr)
 - Slim-specific tests (integration with Slim App).
 
+
 ## License
 
 MIT
+
+
+[slim]: https://www.slimframework.com
+[contributors]: https://github.com/bryanjhv/slim-session/graphs/contributors
