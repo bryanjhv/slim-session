@@ -52,7 +52,7 @@ $container['session'] = function ($c) {
 This will provide you `$app->session`, so you can simply do:
 
 ```php
-$app->get('/', function () {
+$app->get('/', function ($req, $res) {
   $session = new \SlimSession\Helper; // or $this->session if registered
 
   // Check if a variable exists
@@ -80,6 +80,8 @@ $app->get('/', function () {
 
   // Get current session id
   $id = $this->session::id();
+
+  return $res;
 });
 ```
 
