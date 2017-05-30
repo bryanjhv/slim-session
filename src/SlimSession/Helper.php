@@ -37,8 +37,12 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function set($key, $value)
     {
-        $_SESSION[$key] = $value;
+        if (is_array($value) && isset($_SESSION[$key]) && is_array($_SESSION[$key])) {
+            $_SESSION[$key] = array_merge($_SESSION[$key], $value);
+            return $this;
+        }
 
+        $_SESSION[$key] = $value;
         return $this;
     }
 
