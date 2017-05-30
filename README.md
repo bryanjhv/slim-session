@@ -81,6 +81,14 @@ $app->get('/', function ($req, $res) {
   $session->my_key = 'my_value';
   $session['my_key'] = 'my_value';
 
+  // Set array value, Merges on key
+  $app->session->set('my_key', ['my_sub_key' => 'my_value']);
+  // Current Val: ['my_key' => ['my_sub_key' => 'my_value']]
+  $session->my_key = ['my_sub_key2' => 'my_value'];
+  // Current Val: ['my_key' => ['my_sub_key' => 'my_value', 'my_sub_key2' => 'my_value']]
+  $session['my_key'] = ['my_sub_key3' => 'my_value'];
+  // Current Val: ['my_key' => ['my_sub_key' => 'my_value', 'my_sub_key2' => 'my_value', 'my_sub_key3' => 'my_value']]
+
   // Delete variable
   $session->delete('my_key');
   unset($session->my_key);
