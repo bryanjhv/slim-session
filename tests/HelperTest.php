@@ -41,33 +41,19 @@ class HelperTest extends PHPUnit_Framework_TestCase
         $this->assertSame(['a' => 'A', 'b' => 'B', 'c' => 'C'], $_SESSION);
     }
 
-    public function testAssocSet()
-    {
-        $helper = new Helper();
-        
-        $helper->set('a', ['b' => 'B']);
-        $this->assertSame(['a' => ['b' => 'B']], $_SESSION);
-
-        $helper->b = ['c' => 'C'];
-        $this->assertSame(['a' => ['b' => 'B'], 'b' => ['c' => 'C']], $_SESSION);
-
-        $helper['c'] = ['d' => 'D'];
-        $this->assertSame(['a' => ['b' => 'B'], 'b' => ['c' => 'C'], 'c' => ['d' => 'D']], $_SESSION);
-    }
-
-    public function testMergeSet()
+    public function testMerge()
     {
         $helper = new Helper();
         $helper->set('a', []);
 
-        $helper->set('a', ['a' => 'A']);
+        $helper->merge('a', ['a' => 'A']);
         $this->assertSame(['a' => ['a' => 'A']], $_SESSION);
 
-        $helper->a = ['b' => 'B'];
-        $this->assertSame(['a' => ['a' => 'A', 'b' => 'B']], $_SESSION);
+        $helper->merge('a', ['b' => ['a' => 'A']]);
+        $this->assertSame(['a' => ['a' => 'A', 'b' => ['a' => 'A']]], $_SESSION);
 
-        $helper['a'] = ['c' => 'C'];
-        $this->assertSame(['a' => ['a' => 'A', 'b' => 'B', 'c' => 'C']], $_SESSION);
+        $helper->merge('a', ['b' => ['b' => 'B']]);
+        $this->assertSame(['a' => ['a' => 'A', 'b' => ['a' => 'A', 'b' => 'B']]], $_SESSION);
     }
 
     public function testGet()
