@@ -13,6 +13,16 @@ namespace SlimSession;
 class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
+     * Get all session variables.
+     *
+     * @return array
+     */
+    public function getAll()
+    {
+        return $_SESSION;
+    }
+    
+    /**
      * Get a session variable.
      *
      * @param string $key
