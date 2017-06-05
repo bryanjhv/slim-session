@@ -43,6 +43,9 @@ class Session
             'httponly'    => false,
             'name'        => 'slim_session',
             'autorefresh' => false,
+            'session.gc_probability' => 1,
+            'session.gc_divisor'     => 1,
+            'session.gc_maxlifetime' => 30 * 24 * 60 * 60
         ];
         $settings = array_merge($defaults, $settings);
 
@@ -51,9 +54,9 @@ class Session
         }
         $this->settings = $settings;
 
-        ini_set('session.gc_probability', 1);
-        ini_set('session.gc_divisor', 1);
-        ini_set('session.gc_maxlifetime', 30 * 24 * 60 * 60);
+        ini_set('session.gc_probability', $settings['session.gc_probability']);
+        ini_set('session.gc_divisor', $settings['session.gc_divisor']);
+        ini_set('session.gc_maxlifetime', $settings['session.gc_maxlifetime']);
     }
 
     /**
