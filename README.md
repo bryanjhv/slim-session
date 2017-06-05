@@ -65,39 +65,38 @@ That will provide `$app->session`, so you can do:
 $app->get('/', function ($req, $res) {
   // or $this->session if registered
   $session = new \SlimSession\Helper;
-  
+
   // Check if variable exists
   $exists = $session->exists('my_key');
   $exists = isset($session->my_key);
   $exists = isset($session['my_key']);
-  
+
   // Get variable value
   $my_value = $session->get('my_key', 'default');
   $my_value = $session->my_key;
   $my_value = $session['my_key'];
-  
+
   // Set variable value
   $app->session->set('my_key', 'my_value');
   $session->my_key = 'my_value';
   $session['my_key'] = 'my_value';
-  
-  //Merges on key recursively
-  $app->session->merge('my_key', ['my_sub_key' => 'my_value']);
-  $session->merge('my_key', ['my_sub_key2' => ['a' => 'A']]);
-  $session->merge('my_key', ['my_sub_key2' => ['b' => 'B']]);
-  // Current Val: ['my_key' => ['my_sub_key' => 'my_value', 'my_sub_key2' => ['a' => 'A', 'b' => 'B']]
-  
+
+  // Merge value recursively
+  $app->session->merge('my_key', ['first' => 'value']);
+  $session->merge('my_key', ['second' => ['a' => 'A']]);
+  $letter_a = $session['my_key']['second']['a'];  // "A"
+
   // Delete variable
   $session->delete('my_key');
   unset($session->my_key);
   unset($session['my_key']);
-  
+
   // Destroy session
   $session::destroy();
-  
+
   // Get session id
   $id = $this->session::id();
-  
+
   return $res;
 });
 ```

@@ -38,22 +38,24 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
     public function set($key, $value)
     {
         $_SESSION[$key] = $value;
+
         return $this;
     }
 
     /**
-     * Merge array values recursively to session key
+     * Merge values recursively.
      *
      * @param string $key
-     * @param $value
-     * 
+     * @param mixed  $value
+     *
      * @return $this
      */
     public function merge($key, $value)
     {
-        if (is_array($value) && $this->exists($key) && is_array($this->get($key))) {
-            $value = array_merge_recursive($this->get($key), $value);
+        if (is_array($value) && is_array($old = $this->get($key))) {
+            $value = array_merge_recursive($old, $value);
         }
+
         return $this->set($key, $value);
     }
 
