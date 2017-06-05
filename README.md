@@ -81,6 +81,11 @@ $app->get('/', function ($req, $res) {
   $session->my_key = 'my_value';
   $session['my_key'] = 'my_value';
 
+  // Merge value recursively
+  $app->session->merge('my_key', ['first' => 'value']);
+  $session->merge('my_key', ['second' => ['a' => 'A']]);
+  $letter_a = $session['my_key']['second']['a'];  // "A"
+
   // Delete variable
   $session->delete('my_key');
   unset($session->my_key);

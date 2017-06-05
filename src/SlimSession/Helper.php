@@ -43,6 +43,23 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * Merge values recursively.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return $this
+     */
+    public function merge($key, $value)
+    {
+        if (is_array($value) && is_array($old = $this->get($key))) {
+            $value = array_merge_recursive($old, $value);
+        }
+
+        return $this->set($key, $value);
+    }
+
+    /**
      * Delete a session variable.
      *
      * @param string $key

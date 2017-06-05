@@ -41,6 +41,21 @@ class HelperTest extends PHPUnit_Framework_TestCase
         $this->assertSame(['a' => 'A', 'b' => 'B', 'c' => 'C'], $_SESSION);
     }
 
+    public function testMerge()
+    {
+        $helper = new Helper();
+        $helper->set('a', []);
+
+        $helper->merge('a', ['a' => 'A']);
+        $this->assertSame(['a' => ['a' => 'A']], $_SESSION);
+
+        $helper->merge('a', ['b' => ['a' => 'A']]);
+        $this->assertSame(['a' => ['a' => 'A', 'b' => ['a' => 'A']]], $_SESSION);
+
+        $helper->merge('a', ['b' => ['b' => 'B']]);
+        $this->assertSame(['a' => ['a' => 'A', 'b' => ['a' => 'A', 'b' => 'B']]], $_SESSION);
+    }
+
     public function testGet()
     {
         $helper = new Helper();
