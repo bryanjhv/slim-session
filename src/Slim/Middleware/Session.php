@@ -36,13 +36,14 @@ class Session
     public function __construct($settings = [])
     {
         $defaults = [
-            'lifetime'    => '20 minutes',
-            'path'        => '/',
-            'domain'      => null,
-            'secure'      => false,
-            'httponly'    => false,
-            'name'        => 'slim_session',
-            'autorefresh' => false,
+            'lifetime'    	=> '20 minutes',
+            'path'        	=> '/',
+			'save_path'		=> null,
+            'domain'      	=> null,
+            'secure'      	=> false,
+            'httponly'    	=> false,
+            'name'        	=> 'slim_session',
+            'autorefresh' 	=> false,
         ];
         $settings = array_merge($defaults, $settings);
 
@@ -108,6 +109,10 @@ class Session
 
         session_name($name);
         session_cache_limiter(false);
+        
+        if(!empty($settings['save_path']))
+			session_save_path($settings['save_path']);
+        
         if ($inactive) {
             session_start();
         }
