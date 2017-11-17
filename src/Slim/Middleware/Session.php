@@ -2,8 +2,10 @@
 
 namespace Slim\Middleware;
 
+use \SessionHandlerInterface as Handler;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use \Exception;
 
 /**
  * Session middleware
@@ -43,6 +45,7 @@ class Session
             'httponly'    => false,
             'name'        => 'slim_session',
             'autorefresh' => false,
+            'handler'     => null,
         ];
         $settings = array_merge($defaults, $settings);
 
@@ -79,6 +82,11 @@ class Session
     {
         $settings = $this->settings;
         $name = $settings['name'];
+        $handler = $settings['handler'];
+
+        if ($handler and !$handler instanceof Handler) {
+            throw new Exception(sprintf("SessionHandlerInterface expected, %s given", get_class($handler)));
+        }
 
         session_set_cookie_params(
             $settings['lifetime'],
