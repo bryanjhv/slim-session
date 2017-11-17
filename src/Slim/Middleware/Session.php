@@ -43,6 +43,7 @@ class Session
             'httponly'    => false,
             'name'        => 'slim_session',
             'autorefresh' => false,
+            'handler'     => null,
         ];
         $settings = array_merge($defaults, $settings);
 
@@ -79,6 +80,7 @@ class Session
     {
         $settings = $this->settings;
         $name = $settings['name'];
+        $handler = new $settings['handler'];
 
         session_set_cookie_params(
             $settings['lifetime'],
@@ -107,6 +109,7 @@ class Session
         }
 
         session_name($name);
+        session_set_save_handler($handler, true);        
         session_cache_limiter(false);
         if ($inactive) {
             session_start();
