@@ -89,8 +89,9 @@ class Session
         if ($handler) {
             if ($handler instanceof Handler) {
                 $this->registHandler($handler);
+            } else {
+                throw new Exception(sprintf("SessionHandlerInterface expected, %s given", get_class($handler)));
             }
-            throw new Exception(sprintf("SessionHandlerInterface expected, %s given", get_class($handler)));
         }
 
         session_set_cookie_params(
