@@ -55,7 +55,7 @@ $container = $app->getContainer();
 
 // Register globally to app
 $container['session'] = function ($c) {
-  return new \SlimSession\Helper;
+  return new \SlimSession\SessionHelper;
 };
 ```
 
@@ -64,7 +64,7 @@ That will provide `$app->session`, so you can do:
 ```php
 $app->get('/', function ($req, $res) {
   // or $this->session if registered
-  $session = new \SlimSession\Helper;
+  $session = new \SlimSession\SessionHelper;
 
   // Check if variable exists
   $exists = $session->exists('my_key');

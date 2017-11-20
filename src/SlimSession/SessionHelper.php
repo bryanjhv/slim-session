@@ -10,7 +10,7 @@ namespace SlimSession;
  *
  * @package SlimSession
  */
-class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
+class SessionHelper implements \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
      * Get a session variable.
