@@ -25,8 +25,6 @@ use \Exception;
  */
 class Session
 {
-    use HandlerTrait;
-
     /**
      * @var array
      */
@@ -88,7 +86,7 @@ class Session
 
         if ($handler) {
             if ($handler instanceof Handler) {
-                $this->registHandler($handler);
+                @session_set_save_handler($handler, true);
             } else {
                 throw new Exception(sprintf("SessionHandlerInterface expected, %s given", get_class($handler)));
             }
