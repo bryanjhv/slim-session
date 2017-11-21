@@ -12,9 +12,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      * @group passed
      * @dataProvider handlerProvider
      */
-    public function testConstructor(Handler $handler)
+    public function testConstructor($handler)
     {
-        $session = new SessionStub(array('handler' => $handler));
+        $session = new SessionStub(['handler' => $handler]);
         $this->assertInstanceOf(Session::class, $session);
 
         return $session;
@@ -26,18 +26,27 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandlerErrorExceptipn()
     {
-        $session = new SessionStub(array('handler' => new \stdClass()));
-        $session->startSession();
+        $session = new SessionStub(['handler' => \stdClass::class]);
+    }
+
+     /**
+     * @group passed
+     * @expectedException \Exception
+     */
+    public function testHandlerNotFoundExceptipn()
+    {
+        $session = new SessionStub(['handler' => 'WTF???']);
     }
 
     /**
      * @group passed
      * @dataProvider handlerProvider
      */
-    public function testStartSession(Handler $handler)
+    public function testStartSession($handler)
     {
-        $session = new SessionStub(array('handler' => $handler));
-        $session->startSession();
+        $session = new SessionStub(['handler' => $handler]);
+        $handler = $session->startSession();
+        $this->assertInstanceOf(Handler::class, $handler);
     }
 
     /**
@@ -46,7 +55,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function handlerProvider()
     {
         return [
-            [ new HandlerStub ]
+            [ HandlerStub::class ]
         ];   
     }
 }
