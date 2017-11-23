@@ -27,6 +27,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testHandlerErrorExceptipn()
     {
         $session = new SessionStub(['handler' => \stdClass::class]);
+        $session->startSession();
     }
 
      /**

@@ -53,13 +53,8 @@ class Session
         if (is_string($lifetime = $settings['lifetime'])) {
             $settings['lifetime'] = strtotime($lifetime) - time();
         }
-        if (is_string($settings['handler'])) {            
-            $reflection = new ReflectionClass($settings['handler']);
-            if (!class_exists($settings['handler'])) {
-                throw new Exception(sprintf("Class %s is not found", $settings['handler']));
-            } elseif (!in_array(Handler::class, $reflection->getInterfaceNames())) {
-                throw new Exception(sprintf("%s expected, %s given", Handler::class, $settings['handler']));
-            }
+        if (is_string($settings['handler']) && !class_exists($settings['handler'])) {
+            throw new Exception(sprintf("Class %s is not found", $settings['handler']));
         }
         $this->settings = $settings;
 
@@ -92,6 +87,9 @@ class Session
         $settings = $this->settings;
         $name = $settings['name'];
         $handler = new $settings['handler'];
+        if (!$handler instanceof Handler) {
+            throw new Exception(sprintf("%s expected, %s given", Handler::class, $settings['handler']));            
+        }
 
         session_set_cookie_params(
             $settings['lifetime'],
