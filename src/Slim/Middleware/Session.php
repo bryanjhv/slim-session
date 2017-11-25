@@ -5,8 +5,6 @@ namespace Slim\Middleware;
 use \SessionHandlerInterface as Handler;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use \ReflectionClass;
-use \Exception;
 
 /**
  * Session middleware
@@ -53,9 +51,6 @@ class Session
         if (is_string($lifetime = $settings['lifetime'])) {
             $settings['lifetime'] = strtotime($lifetime) - time();
         }
-        if (is_string($settings['handler']) && !class_exists($settings['handler'])) {
-            throw new Exception(sprintf("Class %s is not found", $settings['handler']));
-        }
         $this->settings = $settings;
 
         ini_set('session.gc_probability', 1);
@@ -87,9 +82,6 @@ class Session
         $settings = $this->settings;
         $name = $settings['name'];
         $handler = new $settings['handler'];
-        if (!$handler instanceof Handler) {
-            throw new Exception(sprintf("%s expected, %s given", Handler::class, $settings['handler']));            
-        }
 
         session_set_cookie_params(
             $settings['lifetime'],
