@@ -80,7 +80,6 @@ class Session
     {
         $settings = $this->settings;
         $name = $settings['name'];
-        $handler = new $settings['handler'];
 
         session_set_cookie_params(
             $settings['lifetime'],
@@ -109,7 +108,15 @@ class Session
         }
 
         session_name($name);
-        session_set_save_handler($handler, true);        
+
+        $handler = $settings['handler'];
+        if ($handler) {
+            if (!($handler instanceof SessionHandlerInterface)) {
+                $handler = new $handler;
+            }
+            session_set_save_handler($handler, true);
+        }
+
         session_cache_limiter(false);
         if ($inactive) {
             session_start();

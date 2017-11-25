@@ -44,7 +44,8 @@ $app->add(new \Slim\Middleware\Session([
   PHP's `PHPSESSID`).
 * **`autorefresh`**: `true` if you want session to be refresh when user activity
   is made (interaction with server).
-* `handler`: Class name of the handler which **MUST** be an implementation for ```SessionHandlerInterface```.
+* `handler`: Custom session handler class or object. Must implement
+  `SessionHandlerInterface` as required by PHP.
 
 
 ## Session helper

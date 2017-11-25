@@ -1,11 +1,10 @@
 <?php
-namespace Tests;
 
 use SlimSession\Helper;
 
 session_start();
 
-class HelperTest extends \PHPUnit_Framework_TestCase
+class HelperTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -153,7 +152,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
         $_SESSION = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
 
-        $this->assertInstanceOf(\Iterator::class, $helper->getIterator());
+        $this->assertInstanceOf(Iterator::class, $helper->getIterator());
         $this->assertSame($_SESSION, iterator_to_array($helper->getIterator()));
     }
 }
