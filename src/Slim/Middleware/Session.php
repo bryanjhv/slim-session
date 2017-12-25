@@ -36,14 +36,15 @@ class Session
     public function __construct($settings = [])
     {
         $defaults = [
-            'lifetime'    => '20 minutes',
-            'path'        => '/',
-            'domain'      => null,
-            'secure'      => false,
-            'httponly'    => false,
-            'name'        => 'slim_session',
-            'autorefresh' => false,
-            'handler'     => null,
+            'lifetime'     => '20 minutes',
+            'path'         => '/',
+            'domain'       => null,
+            'secure'       => false,
+            'httponly'     => false,
+            'name'         => 'slim_session',
+            'autorefresh'  => false,
+            'handler'      => null,
+            'ini_settings' => []
         ];
         $settings = array_merge($defaults, $settings);
 
@@ -52,9 +53,10 @@ class Session
         }
         $this->settings = $settings;
 
-        ini_set('session.gc_probability', 1);
-        ini_set('session.gc_divisor', 1);
-        ini_set('session.gc_maxlifetime', 30 * 24 * 60 * 60);
+        $ini = $this->settings['ini_settings'];
+        if (!empty($ini) && is_array($ini)) {
+            $this->iniSet($ini);
+        }
     }
 
     /**
@@ -120,6 +122,14 @@ class Session
         session_cache_limiter(false);
         if ($inactive) {
             session_start();
+        }
+    }
+
+    private function iniSet($settings) {
+        foreach ($settings as $key => $val) {
+            if (strpos($key, 'session.') === 0) {
+                ini_set($key, $val);
+            }
         }
     }
 }
