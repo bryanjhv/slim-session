@@ -125,7 +125,7 @@ class Session
         }
     }
 
-    private function iniSet($settings) {
+    protected function iniSet($settings) {
         foreach ($settings as $key => $val) {
             if (strpos($key, 'session.') === 0) {
                 ini_set($key, $val);
