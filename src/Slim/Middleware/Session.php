@@ -53,9 +53,12 @@ class Session
         }
         $this->settings = $settings;
 
-        $ini = $this->settings['ini_settings'];
+        $ini = $settings['ini_settings'];
         if (!empty($ini) && is_array($ini)) {
             $this->iniSet($ini);
+        }
+        if (!isset($ini['session.gc_maxlifetime']) && (ini_get('session.gc_maxlifetime') < $settings['lifetime'])) {
+            $this->iniSet('session.gc_maxlifetime', $settings['lifetime'] * 2);
         }
     }
 
