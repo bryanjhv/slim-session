@@ -53,12 +53,12 @@ class Session
         }
         $this->settings = $settings;
 
-        $ini = $settings['ini_settings'];
-        if (!empty($ini) && is_array($ini)) {
-            $this->iniSet($ini);
-        }
-        if (!isset($ini['session.gc_maxlifetime']) && (intval(ini_get('session.gc_maxlifetime')) < $settings['lifetime'])) {
-            $this->iniSet(['session.gc_maxlifetime' => $settings['lifetime'] * 2]);
+        $this->iniSet($settings['ini_settings']);
+        // Just override this, to ensure package is working
+        if (ini_get('session.gc_maxlifetime') < $settings['lifetime']) {
+            $this->iniSet([
+                'session.gc_maxlifetime' => $settings['lifetime'] * 2,
+            ]);
         }
     }
 
@@ -128,7 +128,8 @@ class Session
         }
     }
 
-    protected function iniSet($settings) {
+    protected function iniSet($settings)
+    {
         foreach ($settings as $key => $val) {
             if (strpos($key, 'session.') === 0) {
                 ini_set($key, $val);
