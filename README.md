@@ -46,6 +46,7 @@ $app->add(new \Slim\Middleware\Session([
   is made (interaction with server).
 * `handler`: Custom session handler class or object. Must implement
   `SessionHandlerInterface` as required by PHP.
+* `ini_settings`: array of php.ini directives [related to the sessions](http://php.net/manual/en/session.configuration.php) (as keys) with overriding values (for ex: `['session.gc_maxlifetime' => 86400]`). _Note: previous versions of the package has set some hardcoded values of INI-settings which could lead performance leaks: `['session.gc_probability' => 1, 'session.gc_divisor' => 1, 'session.gc_maxlifetime' => 30 * 24 * 60 * 60 ]`_
 
 
 ## Session helper
