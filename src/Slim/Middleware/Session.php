@@ -85,6 +85,8 @@ class Session
     {
         $settings = $this->settings;
         $name = $settings['name'];
+        
+        session_write_close();
 
         session_set_cookie_params(
             $settings['lifetime'],
