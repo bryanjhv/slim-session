@@ -91,7 +91,7 @@ class Session
      */
     protected function startSession()
     {
-        if(self::isActive()) {
+        if(!self::isActive()) {
             $settings = $this->settings;
             $name = $settings['name'];
 
