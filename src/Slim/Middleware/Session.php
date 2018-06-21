@@ -120,21 +120,21 @@ class Session
                     );
                 }
             }
-        }
 
-        session_name($name);
+            session_name($name);
 
-        $handler = $settings['handler'];
-        if ($handler) {
-            if (!($handler instanceof SessionHandlerInterface)) {
-                $handler = new $handler;
+            $handler = $settings['handler'];
+            if ($handler) {
+                if (!($handler instanceof SessionHandlerInterface)) {
+                    $handler = new $handler;
+                }
+                session_set_save_handler($handler, true);
             }
-            session_set_save_handler($handler, true);
-        }
 
-        session_cache_limiter(false);
-        if ($inactive) {
-            session_start();
+            session_cache_limiter(false);
+            if ($inactive) {
+                session_start();
+            }
         }
     }
 
