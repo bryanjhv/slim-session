@@ -79,36 +79,46 @@ class Session
     }
 
     /**
+    * Check if session is active
+    */
+    public function isActive()
+    {
+        return session_status() === PHP_SESSION_ACTIVE;
+    }
+
+    /**
      * Start session
      */
     protected function startSession()
     {
-        $settings = $this->settings;
-        $name = $settings['name'];
+        if(self::isActive()) {
+            $settings = $this->settings;
+            $name = $settings['name'];
 
-        session_set_cookie_params(
-            $settings['lifetime'],
-            $settings['path'],
-            $settings['domain'],
-            $settings['secure'],
-            $settings['httponly']
-        );
+            session_set_cookie_params(
+                $settings['lifetime'],
+                $settings['path'],
+                $settings['domain'],
+                $settings['secure'],
+                $settings['httponly']
+            );
 
-        $inactive = session_status() === PHP_SESSION_NONE;
+            $inactive = session_status() === PHP_SESSION_NONE;
 
-        if ($inactive) {
+            if ($inactive) {
             // Refresh session cookie when "inactive",
             // else PHP won't know we want this to refresh
-            if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
-                setcookie(
-                    $name,
-                    $_COOKIE[$name],
-                    time() + $settings['lifetime'],
-                    $settings['path'],
-                    $settings['domain'],
-                    $settings['secure'],
-                    $settings['httponly']
-                );
+                if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
+                    setcookie(
+                        $name,
+                        $_COOKIE[$name],
+                        time() + $settings['lifetime'],
+                        $settings['path'],
+                        $settings['domain'],
+                        $settings['secure'],
+                        $settings['httponly']
+                    );
+                }
             }
         }
 
