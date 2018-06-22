@@ -83,48 +83,52 @@ class Session
      */
     protected function startSession()
     {
-        $settings = $this->settings;
-        $name = $settings['name'];
+        $inactive = session_status() === PHP_SESSION_ACTIVE;
 
-        session_set_cookie_params(
-            $settings['lifetime'],
-            $settings['path'],
-            $settings['domain'],
-            $settings['secure'],
-            $settings['httponly']
-        );
+        if (!$inactive) {
+            $settings = $this->settings;
+            $name = $settings['name'];
 
-        $inactive = session_status() === PHP_SESSION_NONE;
+            session_set_cookie_params(
+                $settings['lifetime'],
+                $settings['path'],
+                $settings['domain'],
+                $settings['secure'],
+                $settings['httponly']
+            );
 
-        if ($inactive) {
+            $inactive = session_status() === PHP_SESSION_NONE;
+
+            if ($inactive) {
             // Refresh session cookie when "inactive",
             // else PHP won't know we want this to refresh
-            if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
-                setcookie(
-                    $name,
-                    $_COOKIE[$name],
-                    time() + $settings['lifetime'],
-                    $settings['path'],
-                    $settings['domain'],
-                    $settings['secure'],
-                    $settings['httponly']
-                );
+                if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
+                    setcookie(
+                        $name,
+                        $_COOKIE[$name],
+                        time() + $settings['lifetime'],
+                        $settings['path'],
+                        $settings['domain'],
+                        $settings['secure'],
+                        $settings['httponly']
+                    );
+                }
             }
-        }
 
-        session_name($name);
+            session_name($name);
 
-        $handler = $settings['handler'];
-        if ($handler) {
-            if (!($handler instanceof SessionHandlerInterface)) {
-                $handler = new $handler;
+            $handler = $settings['handler'];
+            if ($handler) {
+                if (!($handler instanceof SessionHandlerInterface)) {
+                    $handler = new $handler;
+                }
+                session_set_save_handler($handler, true);
             }
-            session_set_save_handler($handler, true);
-        }
 
-        session_cache_limiter(false);
-        if ($inactive) {
-            session_start();
+            session_cache_limiter(false);
+            if ($inactive) {
+                session_start();
+            }
         }
     }
 
