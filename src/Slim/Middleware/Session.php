@@ -79,19 +79,13 @@ class Session
     }
 
     /**
-    * Check if session is active
-    */
-    public function isActive()
-    {
-        return session_status() === PHP_SESSION_ACTIVE;
-    }
-
-    /**
      * Start session
      */
     protected function startSession()
     {
-        if(!self::isActive()) {
+        $inactive = session_status() === PHP_SESSION_ACTIVE;
+
+        if (!$inactive) {
             $settings = $this->settings;
             $name = $settings['name'];
 
