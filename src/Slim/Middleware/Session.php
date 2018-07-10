@@ -27,6 +27,7 @@ class Session
      * @var array
      */
     protected $settings;
+    protected $inactive;
 
     /**
      * Constructor
@@ -52,13 +53,17 @@ class Session
             $settings['lifetime'] = strtotime($lifetime) - time();
         }
         $this->settings = $settings;
-
-        $this->iniSet($settings['ini_settings']);
-        // Just override this, to ensure package is working
-        if (ini_get('session.gc_maxlifetime') < $settings['lifetime']) {
-            $this->iniSet([
-                'session.gc_maxlifetime' => $settings['lifetime'] * 2,
-            ]);
+        
+        $this->inactive = session_status() === PHP_SESSION_NONE;
+        
+        if($this->inactive){
+            $this->iniSet($settings['ini_settings']);
+            // Just override this, to ensure package is working
+            if (ini_get('session.gc_maxlifetime') < $settings['lifetime']) {
+                $this->iniSet([
+                    'session.gc_maxlifetime' => $settings['lifetime'] * 2,
+                ]);
+            }
         }
     }
 
@@ -73,7 +78,9 @@ class Session
      */
     public function __invoke(Request $request, Response $response, callable $next)
     {
-        $this->startSession();
+        if($this->inactive){
+            $this->startSession();
+        }
 
         return $next($request, $response);
     }
@@ -94,22 +101,18 @@ class Session
             $settings['httponly']
         );
 
-        $inactive = session_status() === PHP_SESSION_NONE;
-
-        if ($inactive) {
-            // Refresh session cookie when "inactive",
-            // else PHP won't know we want this to refresh
-            if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
-                setcookie(
-                    $name,
-                    $_COOKIE[$name],
-                    time() + $settings['lifetime'],
-                    $settings['path'],
-                    $settings['domain'],
-                    $settings['secure'],
-                    $settings['httponly']
-                );
-            }
+        // Refresh session cookie when "inactive",
+        // else PHP won't know we want this to refresh
+        if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
+            setcookie(
+                $name,
+                $_COOKIE[$name],
+                time() + $settings['lifetime'],
+                $settings['path'],
+                $settings['domain'],
+                $settings['secure'],
+                $settings['httponly']
+            );
         }
 
         session_name($name);
@@ -123,9 +126,7 @@ class Session
         }
 
         session_cache_limiter(false);
-        if ($inactive) {
-            session_start();
-        }
+        session_start();
     }
 
     protected function iniSet($settings)
