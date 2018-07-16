@@ -56,7 +56,7 @@ class Session
         
         $this->inactive = session_status() === PHP_SESSION_NONE;
         
-        if($this->inactive){
+        if($this->inactive) {
             $this->iniSet($settings['ini_settings']);
             // Just override this, to ensure package is working
             if (ini_get('session.gc_maxlifetime') < $settings['lifetime']) {
@@ -78,7 +78,7 @@ class Session
      */
     public function __invoke(Request $request, Response $response, callable $next)
     {
-        if($this->inactive){
+        if($this->inactive) {
             $this->startSession();
         }
 
