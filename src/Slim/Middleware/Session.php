@@ -83,6 +83,9 @@ class Session
      */
     protected function startSession()
     {
+        $inactive = session_status() === PHP_SESSION_NONE;
+        if (!$inactive) return;
+
         $settings = $this->settings;
         $name = $settings['name'];
 
@@ -94,22 +97,18 @@ class Session
             $settings['httponly']
         );
 
-        $inactive = session_status() === PHP_SESSION_NONE;
-
-        if ($inactive) {
-            // Refresh session cookie when "inactive",
-            // else PHP won't know we want this to refresh
-            if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
-                setcookie(
-                    $name,
-                    $_COOKIE[$name],
-                    time() + $settings['lifetime'],
-                    $settings['path'],
-                    $settings['domain'],
-                    $settings['secure'],
-                    $settings['httponly']
-                );
-            }
+        // Refresh session cookie when "inactive",
+        // else PHP won't know we want this to refresh
+        if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
+            setcookie(
+                $name,
+                $_COOKIE[$name],
+                time() + $settings['lifetime'],
+                $settings['path'],
+                $settings['domain'],
+                $settings['secure'],
+                $settings['httponly']
+            );
         }
 
         session_name($name);
@@ -123,9 +122,7 @@ class Session
         }
 
         session_cache_limiter(false);
-        if ($inactive) {
-            session_start();
-        }
+        session_start();
     }
 
     protected function iniSet($settings)
