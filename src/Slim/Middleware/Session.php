@@ -2,8 +2,8 @@
 
 namespace Slim\Middleware;
 
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * Session middleware
@@ -44,7 +44,7 @@ class Session
             'name'         => 'slim_session',
             'autorefresh'  => false,
             'handler'      => null,
-            'ini_settings' => []
+            'ini_settings' => [],
         ];
         $settings = array_merge($defaults, $settings);
 
@@ -116,7 +116,7 @@ class Session
 
         $handler = $settings['handler'];
         if ($handler) {
-            if (!($handler instanceof SessionHandlerInterface)) {
+            if (!($handler instanceof \SessionHandlerInterface)) {
                 $handler = new $handler;
             }
             session_set_save_handler($handler, true);
