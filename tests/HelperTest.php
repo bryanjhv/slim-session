@@ -1,10 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use SlimSession\Helper;
 
 session_start();
 
-class HelperTest extends PHPUnit_Framework_TestCase
+class HelperTest extends TestCase
 {
     protected function setUp()
     {
@@ -13,7 +14,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
 
     public function testExists()
     {
-        $helper = new Helper();
+        $helper = new Helper;
 
         $_SESSION = $data = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
 
@@ -29,7 +30,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
 
     public function testSet()
     {
-        $helper = new Helper();
+        $helper = new Helper;
 
         $helper->set('a', 'A');
         $this->assertSame(['a' => 'A'], $_SESSION);
@@ -43,7 +44,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
 
     public function testMerge()
     {
-        $helper = new Helper();
+        $helper = new Helper;
         $helper->set('a', []);
 
         $helper->merge('a', ['a' => 'A']);
@@ -58,7 +59,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $helper = new Helper();
+        $helper = new Helper;
 
         $_SESSION = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
 
@@ -75,7 +76,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $helper = new Helper();
+        $helper = new Helper;
 
         $_SESSION = $data = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
 
@@ -95,7 +96,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
 
     public function testClear()
     {
-        $helper = new Helper();
+        $helper = new Helper;
 
         $_SESSION = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
 
@@ -108,7 +109,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
      */
     public function testId()
     {
-        $helper = new Helper();
+        $helper = new Helper;
 
         $this->assertSame(session_id(), $helper::id());
         $this->assertNotSame(session_id(), $sessionId = $helper::id(true));
@@ -120,7 +121,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
      */
     public function testDestroy()
     {
-        $helper = new Helper();
+        $helper = new Helper;
 
         $_SESSION = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
 
@@ -139,7 +140,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
 
     public function testCount()
     {
-        $helper = new Helper();
+        $helper = new Helper;
 
         $_SESSION = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
 
@@ -148,7 +149,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
 
     public function testIterator()
     {
-        $helper = new Helper();
+        $helper = new Helper;
 
         $_SESSION = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
 
