@@ -24,6 +24,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class Session
 {
     /**
+     * Supported options
+     *
      * @var array
      */
     protected $settings;
@@ -31,16 +33,16 @@ class Session
     /**
      * Constructor
      *
-     * @param array $settings
+     * @param array $settings Supported options
      */
     public function __construct($settings = [])
     {
         $defaults = [
-            'lifetime'     => '20 minutes',
+            'lifetime'     => 0,
             'path'         => '/',
             'domain'       => null,
-            'secure'       => false,
-            'httponly'     => false,
+            'secure'       => true,
+            'httponly'     => true,
             'name'         => 'slim_session',
             'autorefresh'  => false,
             'handler'      => null,
@@ -80,11 +82,15 @@ class Session
 
     /**
      * Start session
+     *
+     * @return void
      */
     protected function startSession()
     {
         $inactive = session_status() === PHP_SESSION_NONE;
-        if (!$inactive) return;
+        if (!$inactive) {
+            return;
+        }
 
         $settings = $this->settings;
         $name = $settings['name'];
@@ -125,7 +131,13 @@ class Session
         session_start();
     }
 
-    protected function iniSet($settings)
+    /**
+     * Sets custom session configuration
+     *
+     * @param array $settings Associative array of custom session configuration
+     * @return void
+     */
+    protected function iniSet($settings = [])
     {
         foreach ($settings as $key => $val) {
             if (strpos($key, 'session.') === 0) {
