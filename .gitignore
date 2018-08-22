@@ -1,6 +1,35 @@
-# PhpStorm
-.idea/
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon
 
-# Composer
+ehthumbs.db
+Thumbs.db
+
+# IDE files #
+#############
+/.settings
+/.buildpath
+/.project
+/nbproject
+/.idea
+*.iml
+*.komodoproject
+*.kpf
+
+# Other files #
+###############
+!empty
+
+# Test related files #
+######################
+/builds
+
+# Composer #
+############
 composer.lock
 vendor/

@@ -37,7 +37,7 @@ $app->add(new \Slim\Middleware\Session([
 
 ### Supported options
 
-* `lifetime`: How much should the session last? Default `20 minutes`. Any
+* `lifetime`: How much should the session last? Default `0`. Any
   argument that `strtotime` can parse is valid.
 * `path`, `domain`, `secure`, `httponly`: Options for the session cookie.
 * `name`: Name for the session cookie. Defaults to `slim_session` (instead of
