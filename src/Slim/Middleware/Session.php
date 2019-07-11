@@ -129,7 +129,15 @@ class Session
     {
         foreach ($settings as $key => $val) {
             if (strpos($key, 'session.') === 0) {
-                ini_set($key, $val);
+                try {
+                  if($key == "session.gc_maxlifetime" && $val > 1440) {
+                      throw new Exception('lifetime Max 24 minutes or <a href="https://bytes.com/topic/php/answers/901961-how-set-session-timeout-php-ini-file" >edit php.ini</a>');
+                  }
+                  ini_set($key, $val);
+                } catch (Exception $e) {
+                  echo "<b/>Caught exception : <b>".$e->getMessage()."</b><br/>";
+                }
+
             }
         }
     }
