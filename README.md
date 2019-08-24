@@ -1,20 +1,26 @@
-# slim-session
+# slim-session &nbsp;&nbsp;&nbsp; [![Donate][paybtn]][paylnk]
 
-Simple middleware for Slim Framework 2, that allows managing PHP built-in
-sessions and includes a `Helper` class to help you with the `$_SESSION`
+Simple middleware for [Slim Framework 2][slim], that allows managing PHP
+built-in sessions and includes a `Helper` class to help you with the `$_SESSION`
 superglobal.
+
 
 ## Installation
 
-Include this line in your `composer.json`:
+Add this line to `require` block in your `composer.json`:
 
 ```
 "bryanjhv/slim-session": "~2.1"
 ```
 
-## Usage
+Or, run in a shell instead:
 
-The namespace for the middleware is the same as normal, so:
+```sh
+composer require bryanjhv/slim-session:~2.1
+```
+
+
+## Usage
 
 ```php
 $app = new \Slim\Slim;
@@ -27,18 +33,27 @@ $app->add(new \Slim\Middleware\Session(array(
 
 ### Supported options
 
-* `lifetime`: How long a session can be. Defaults to `20 minutes` (yes, you can
-  pass anything that can be parsed by `strtotime`).
+* `lifetime`: How much should the session last? Default `20 minutes`. Any
+  argument that `strtotime` can parse is valid.
 * `path`, `domain`, `secure`, `httponly`: Options for the session cookie.
 * `name`: Name for the session cookie. Defaults to `slim_session` (instead of
   PHP's `PHPSESSID`).
-* **`autorefresh`**: Set this to `true` if you want the session to be refresh
-  each time a user activity is made.
+* **`autorefresh`**: `true` if you want the session to be refresh when user activity
+  is made (interactiobn with server).
+* `ini_settings`: Associative array of custom [session configuration][sesscfg].
+  Previous versions of this package had some hardcoded values which could bring
+  serious performance leaks (see #30):
+  ```php
+  array(
+      'session.gc_divisor'     => 1,
+      'session.gc_probability' => 1,
+      'session.gc_maxlifetime' => 30 * 24 * 60 * 60,
+  )
+  ```
 
 ## Session helper
 
-This package also ships a `Helper` class ~~and registers it to `$app->session`
-so you can do~~ which you need to register or instance if you want to use it:
+A `Helper` class is available, which you can register globally or instantiate:
 
 ```php
 $app->container->singleton('session', function () {
@@ -46,35 +61,65 @@ $app->container->singleton('session', function () {
 });
 ```
 
-This will provide you `$app->session`, so you can simply do:
+This will provide `$app->session`, so you can do:
 
 ```php
 $app->get('/', function () use ($app) {
-  $session = new \SlimSession\Helper; // or $app->session if registered
+  // or $this->session if registered
+  $session = new \SlimSession\Helper;
 
-  // Get a variable
-  $key = $session->get('key', 'default');
-  $st = $session->st;
+  // Check if variable exists
+  $exists = $session->exists('my_key');
+  $exists = isset($session->my_key);
+  $exists = isset($session['my_key']);
 
-  // Set a variable
+  // Get variable value
+  $my_value = $session->get('my_key', 'default');
+  $my_value = $session->my_key;
+  $my_value = $session['my_key'];
+
+  // Set variable value
+  $app->session->set('my_key', 'my_value');
   $session->my_key = 'my_value';
-  $app->session->set('a', 'var');
+  $session['my_key'] = 'my_value';
 
-  // Remove variable
-  $session->delete('a_var');
+  // Merge value recursively
+  $app->session->merge('my_key', array('first' => 'value'));
+  $session->merge('my_key', array('second' => array('a' => 'A')));
+  $letter_a = $session['my_key']['second']['a'];  // "A"
+
+  // Delete variable
+  $session->delete('my_key');
+  unset($session->my_key);
+  unset($session['my_key']);
 
   // Destroy session
   $session::destroy();
 
-  // Get current session id
+  // Get session id
   $id = $app->session::id();
 });
 ```
+
+
+## Contributors
+
+[Here][contributors] are the big ones listed. :smile:
+
 
 ## TODO
 
 Tests (still)!
 
+
 ## License
 
 MIT
+
+
+[slim]: https://www.slimframework.com/docs/v2/
+[sesscfg]: http://php.net/manual/en/session.configuration.php
+[contributors]: https://github.com/bryanjhv/slim-session/graphs/contributors
+
+[paybtn]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif
+[paylnk]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DVB7SSMVSHGTN

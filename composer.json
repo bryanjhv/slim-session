@@ -14,7 +14,7 @@
     {
       "name": "Bryan Horna",
       "email": "bryanjhv@gmail.com",
-      "homepage": "https://bryanjhv.xyz",
+      "homepage": "https://bryanjhv.github.io",
       "role": "developer"
     }
   ],
@@ -22,7 +22,7 @@
     "source": "https://github.com/bryanjhv/slim-session.git"
   },
   "require": {
-    "slim/slim": "~2.0"
+    "slim/slim": "^2.0"
   },
   "autoload": {
     "psr-4": {

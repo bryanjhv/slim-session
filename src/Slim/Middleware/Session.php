@@ -33,13 +33,14 @@ class Session extends \Slim\Middleware
     public function __construct($settings = array())
     {
         $defaults = array(
-            'lifetime' => '20 minutes',
-            'path' => '/',
-            'domain' => null,
-            'secure' => false,
-            'httponly' => false,
-            'name' => 'slim_session',
-            'autorefresh' => false
+            'lifetime'     => '20 minutes',
+            'path'         => '/',
+            'domain'       => null,
+            'secure'       => false,
+            'httponly'     => false,
+            'name'         => 'slim_session',
+            'autorefresh'  => false,
+            'ini_settings' => array(),
         );
         $settings = array_merge($defaults, $settings);
         if (is_string($lifetime = $settings['lifetime'])) {
@@ -47,13 +48,17 @@ class Session extends \Slim\Middleware
         }
         $this->settings = $settings;
 
-        ini_set('session.gc_probability', 1);
-        ini_set('session.gc_divisor', 1);
-        ini_set('session.gc_maxlifetime', 30 * 24 * 60 * 60);
+        $this->iniSet($settings['ini_settings']);
+        // Just override this, to ensure package is working
+        if (ini_get('session.gc_maxlifetime') < $settings['lifetime']) {
+            $this->iniSet(array(
+                'session.gc_maxlifetime' => $settings['lifetime'] * 2,
+            ));
+        }
     }
 
     /**
-     * Call
+     * Called when middleware needs to be executed.
      */
     public function call()
     {
@@ -66,6 +71,9 @@ class Session extends \Slim\Middleware
      */
     protected function startSession()
     {
+        $inactive = session_id() === '';
+        if (!$inactive) return;
+
         $settings = $this->settings;
         $name = $settings['name'];
 
@@ -77,22 +85,31 @@ class Session extends \Slim\Middleware
             $settings['httponly']
         );
 
-        if (session_id()) {
-            if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
-                setcookie(
-                    $name,
-                    $_COOKIE[$name],
-                    time() + $settings['lifetime'],
-                    $settings['path'],
-                    $settings['domain'],
-                    $settings['secure'],
-                    $settings['httponly']
-                );
-            }
+        // Refresh session cookie when "inactive",
+        // else PHP won't know we want this to refresh
+        if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
+            setcookie(
+                $name,
+                $_COOKIE[$name],
+                time() + $settings['lifetime'],
+                $settings['path'],
+                $settings['domain'],
+                $settings['secure'],
+                $settings['httponly']
+            );
         }
 
         session_name($name);
         session_cache_limiter(false);
         session_start();
+    }
+
+    protected function iniSet($settings)
+    {
+        foreach ($settings as $key => $val) {
+            if (strpos($key, 'session.') === 0) {
+                ini_set($key, $val);
+            }
+        }
     }
 }
