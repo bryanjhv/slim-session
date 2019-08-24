@@ -10,13 +10,13 @@ superglobal.
 Add this line to `require` block in your `composer.json`:
 
 ```
-"bryanjhv/slim-session": "~2.1"
+"bryanjhv/slim-session": "~2.2"
 ```
 
 Or, run in a shell instead:
 
 ```sh
-composer require bryanjhv/slim-session:~2.1
+composer require bryanjhv/slim-session:~2.2
 ```
 
 
