@@ -130,7 +130,7 @@ $app->get('/', function ($req, $res) {
 MIT
 
 
-[slim]: https://www.slimframework.com
+[slim]: https://www.slimframework.com/docs/v3/
 [sesscfg]: http://php.net/manual/en/session.configuration.php
 [contributors]: https://github.com/bryanjhv/slim-session/graphs/contributors
 
