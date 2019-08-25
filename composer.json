@@ -1,6 +1,6 @@
 {
   "name": "bryanjhv/slim-session",
-  "description": "Session middleware and helper for Slim framework 3.",
+  "description": "Session middleware and helper for Slim framework 4.",
   "type": "library",
   "keywords": [
     "slim",
@@ -22,7 +22,7 @@
     "source": "https://github.com/bryanjhv/slim-session.git"
   },
   "require": {
-    "slim/slim": "^3.0"
+    "slim/slim": "^4.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.0"

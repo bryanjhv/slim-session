@@ -1,8 +1,11 @@
 # slim-session &nbsp;&nbsp;&nbsp; [![Donate][paybtn]][paylnk]
 
-Simple middleware for [Slim Framework 3][slim], that allows managing PHP
+Simple middleware for [Slim Framework 4][slim], that allows managing PHP
 built-in sessions and includes a `Helper` class to help you with the `$_SESSION`
 superglobal.
+
+**For the middleware version for Slim Framework 3, please check out the `slim-3`
+branch in this repository.**
 
 **For the middleware version for Slim Framework 2, please check out the `slim-2`
 branch in this repository.**
@@ -26,7 +29,7 @@ composer require bryanjhv/slim-session:~3.0
 ## Usage
 
 ```php
-$app = new \Slim\App;
+$app = \Slim\Factory\AppFactory::create();
 $app->add(new \Slim\Middleware\Session([
   'name' => 'dummy_session',
   'autorefresh' => true,
@@ -63,19 +66,20 @@ $app->add(new \Slim\Middleware\Session([
 A `Helper` class is available, which you can register globally or instantiate:
 
 ```php
-$container = $app->getContainer();
+$container = new \DI\Container;
 
 // Register globally to app
-$container['session'] = function ($c) {
+$container->set('session', function () {
   return new \SlimSession\Helper;
-};
+});
+\Slim\Factory\AppFactory::setContainer($container);
 ```
 
-That will provide `$app->session`, so you can do:
+That will provide `$app->get('session')`, so you can do:
 
 ```php
 $app->get('/', function ($req, $res) {
-  // or $this->session if registered
+  // or $this->get('session') if registered
   $session = new \SlimSession\Helper;
 
   // Check if variable exists
@@ -89,12 +93,12 @@ $app->get('/', function ($req, $res) {
   $my_value = $session['my_key'];
 
   // Set variable value
-  $app->session->set('my_key', 'my_value');
+  $app->get('session')->set('my_key', 'my_value');
   $session->my_key = 'my_value';
   $session['my_key'] = 'my_value';
 
   // Merge value recursively
-  $app->session->merge('my_key', ['first' => 'value']);
+  $app->get('session')->merge('my_key', ['first' => 'value']);
   $session->merge('my_key', ['second' => ['a' => 'A']]);
   $letter_a = $session['my_key']['second']['a'];  // "A"
 
@@ -130,7 +134,7 @@ $app->get('/', function ($req, $res) {
 MIT
 
 
-[slim]: https://www.slimframework.com/docs/v3/
+[slim]: https://www.slimframework.com/docs/v4/
 [sesscfg]: http://php.net/manual/en/session.configuration.php
 [contributors]: https://github.com/bryanjhv/slim-session/graphs/contributors
 
