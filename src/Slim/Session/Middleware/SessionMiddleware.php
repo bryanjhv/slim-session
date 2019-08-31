@@ -8,7 +8,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
 /**
- * Session middleware
+ * SessionMiddleware middleware
  *
  * This class is meant to provide a easy way to manage sessions with framework,
  * using the PHP built-in (native) sessions but also allowing to manipulate the
@@ -23,7 +23,7 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
  * @package Slim\Middleware
  * @author  Bryan Horna
  */
-class Session implements MiddlewareInterface
+class SessionMiddleware implements MiddlewareInterface
 {
     /**
      * @var array
