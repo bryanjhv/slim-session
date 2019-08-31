@@ -1,9 +1,10 @@
 <?php
 
-namespace Slim\Middleware;
+namespace Slim\Session\Middleware;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
 /**
@@ -22,7 +23,7 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
  * @package Slim\Middleware
  * @author  Bryan Horna
  */
-class Session
+class Session implements MiddlewareInterface
 {
     /**
      * @var array
@@ -71,7 +72,7 @@ class Session
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(Request $request, RequestHandler $handler): Response
+    public function process(Request $request, RequestHandler $handler): Response
     {
         $this->startSession();
 

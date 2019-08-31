@@ -1,6 +1,6 @@
 <?php
 
-namespace SlimSession;
+namespace Slim\Session;
 
 /**
  * Helper class

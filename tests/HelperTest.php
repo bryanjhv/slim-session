@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use SlimSession\Helper;
+use Slim\Session\Helper;
 
 session_start();
 
