@@ -29,7 +29,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Slim\\Session": "src/"
+      "Slim\\": "src/"
     }
   },
   "minimum-stability": "stable",
