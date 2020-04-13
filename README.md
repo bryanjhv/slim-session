@@ -15,14 +15,27 @@ branch in this repository.**
 
 Add this line to `require` block in your `composer.json`:
 
+with SlimPhp V3
 ```
 "bryanjhv/slim-session": "~3.0"
+```
+
+with SlimPhp V4
+```
+"bryanjhv/slim-session": "~4.0"
 ```
 
 Or, run in a shell instead:
 
 ```sh
+# slimphp v3
 composer require bryanjhv/slim-session:~3.0
+```
+
+
+```sh
+# slimphp v4
+composer require bryanjhv/slim-session:~4.0
 ```
 
 
