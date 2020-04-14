@@ -16,13 +16,13 @@ branch in this repository.**
 Add this line to `require` block in your `composer.json`:
 
 ```
-"bryanjhv/slim-session": "~3.0"
+"bryanjhv/slim-session": "~4.0"
 ```
 
 Or, run in a shell instead:
 
 ```sh
-composer require bryanjhv/slim-session:~3.0
+composer require bryanjhv/slim-session:~4.0
 ```
 
 
