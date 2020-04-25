@@ -4,21 +4,19 @@ Simple middleware for [Slim Framework 2][slim], that allows managing PHP
 built-in sessions and includes a `Helper` class to help you with the `$_SESSION`
 superglobal.
 
-
 ## Installation
 
 Add this line to `require` block in your `composer.json`:
 
-```
-"bryanjhv/slim-session": "~2.2"
+```json
+"bryanjhv/slim-session": "~2.0"
 ```
 
 Or, run in a shell instead:
 
 ```sh
-composer require bryanjhv/slim-session:~2.2
+composer require bryanjhv/slim-session:~2.0
 ```
-
 
 ## Usage
 
@@ -33,14 +31,14 @@ $app->add(new \Slim\Middleware\Session(array(
 
 ### Supported options
 
-* `lifetime`: How much should the session last? Default `20 minutes`. Any
+- `lifetime`: How much should the session last? Default `20 minutes`. Any
   argument that `strtotime` can parse is valid.
-* `path`, `domain`, `secure`, `httponly`: Options for the session cookie.
-* `name`: Name for the session cookie. Defaults to `slim_session` (instead of
+- `path`, `domain`, `secure`, `httponly`: Options for the session cookie.
+- `name`: Name for the session cookie. Defaults to `slim_session` (instead of
   PHP's `PHPSESSID`).
-* **`autorefresh`**: `true` if you want the session to be refresh when user activity
-  is made (interactiobn with server).
-* `ini_settings`: Associative array of custom [session configuration][sesscfg].
+- **`autorefresh`**: `true` if you want session to be refresh when user activity
+  is made (interaction with server).
+- `ini_settings`: Associative array of custom [session configuration][sesscfg].
   Previous versions of this package had some hardcoded values which could bring
   serious performance leaks (see #30):
   ```php
@@ -56,12 +54,13 @@ $app->add(new \Slim\Middleware\Session(array(
 A `Helper` class is available, which you can register globally or instantiate:
 
 ```php
+// Register globally to app
 $app->container->singleton('session', function () {
   return new \SlimSession\Helper;
 });
 ```
 
-This will provide `$app->session`, so you can do:
+That will provide `$app->session`, so you can do:
 
 ```php
 $app->get('/', function () use ($app) {
@@ -97,29 +96,25 @@ $app->get('/', function () use ($app) {
   $session::destroy();
 
   // Get session id
-  $id = $app->session::id();
+  $id = $this->session::id();
 });
 ```
-
 
 ## Contributors
 
 [Here][contributors] are the big ones listed. :smile:
 
-
 ## TODO
 
 Tests (still)!
-
 
 ## License
 
 MIT
 
-
 [slim]: https://www.slimframework.com/docs/v2/
-[sesscfg]: http://php.net/manual/en/session.configuration.php
+[sesscfg]: https://www.php.net/manual/en/session.configuration.php
 [contributors]: https://github.com/bryanjhv/slim-session/graphs/contributors
-
 [paybtn]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif
-[paylnk]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DVB7SSMVSHGTN
+[paylnk]:
+  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DVB7SSMVSHGTN
