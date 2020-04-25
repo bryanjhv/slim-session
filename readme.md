@@ -7,12 +7,11 @@ superglobal.
 **For the middleware version for Slim Framework 2, please check out the `slim-2`
 branch in this repository.**
 
-
 ## Installation
 
 Add this line to `require` block in your `composer.json`:
 
-```
+```json
 "bryanjhv/slim-session": "~3.0"
 ```
 
@@ -21,7 +20,6 @@ Or, run in a shell instead:
 ```sh
 composer require bryanjhv/slim-session:~3.0
 ```
-
 
 ## Usage
 
@@ -34,19 +32,18 @@ $app->add(new \Slim\Middleware\Session([
 ]));
 ```
 
-
 ### Supported options
 
-* `lifetime`: How much should the session last? Default `20 minutes`. Any
+- `lifetime`: How much should the session last? Default `20 minutes`. Any
   argument that `strtotime` can parse is valid.
-* `path`, `domain`, `secure`, `httponly`: Options for the session cookie.
-* `name`: Name for the session cookie. Defaults to `slim_session` (instead of
+- `path`, `domain`, `secure`, `httponly`: Options for the session cookie.
+- `name`: Name for the session cookie. Defaults to `slim_session` (instead of
   PHP's `PHPSESSID`).
-* **`autorefresh`**: `true` if you want session to be refresh when user activity
+- **`autorefresh`**: `true` if you want session to be refresh when user activity
   is made (interaction with server).
-* `handler`: Custom session handler class or object. Must implement
+- `handler`: Custom session handler class or object. Must implement
   `SessionHandlerInterface` as required by PHP.
-* `ini_settings`: Associative array of custom [session configuration][sesscfg].
+- `ini_settings`: Associative array of custom [session configuration][sesscfg].
   Previous versions of this package had some hardcoded values which could bring
   serious performance leaks (see #30):
   ```php
@@ -56,7 +53,6 @@ $app->add(new \Slim\Middleware\Session([
       'session.gc_maxlifetime' => 30 * 24 * 60 * 60,
   ]
   ```
-
 
 ## Session helper
 
@@ -113,26 +109,22 @@ $app->get('/', function ($req, $res) {
 });
 ```
 
-
 ## Contributors
 
 [Here][contributors] are the big ones listed. :smile:
-
 
 ## TODO
 
 - Complete `Helper` tests. (thanks @Zemistr)
 - Slim-specific tests (integration with Slim App).
 
-
 ## License
 
 MIT
 
-
 [slim]: https://www.slimframework.com/docs/v3/
-[sesscfg]: http://php.net/manual/en/session.configuration.php
+[sesscfg]: https://www.php.net/manual/en/session.configuration.php
 [contributors]: https://github.com/bryanjhv/slim-session/graphs/contributors
-
 [paybtn]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif
-[paylnk]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DVB7SSMVSHGTN
+[paylnk]:
+  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DVB7SSMVSHGTN
