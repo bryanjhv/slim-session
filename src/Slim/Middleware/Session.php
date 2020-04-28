@@ -12,8 +12,8 @@ namespace Slim\Middleware;
  * for a session and it will be updated after each user activity or interaction
  * like an 'autorefresh' feature.
  *
- * Keep in mind this relies on PHP native sessions, so for this to work you
- * must have that enabled and correctly working.
+ * Keep in mind this relies on PHP native sessions, so for this to work you must
+ * have that enabled and correctly working.
  *
  * @package Slim\Middleware
  * @author  Bryan Horna
@@ -33,13 +33,13 @@ class Session extends \Slim\Middleware
     public function __construct($settings = array())
     {
         $defaults = array(
-            'lifetime'     => '20 minutes',
-            'path'         => '/',
-            'domain'       => null,
-            'secure'       => false,
-            'httponly'     => false,
-            'name'         => 'slim_session',
-            'autorefresh'  => false,
+            'lifetime' => '20 minutes',
+            'path' => '/',
+            'domain' => null,
+            'secure' => false,
+            'httponly' => false,
+            'name' => 'slim_session',
+            'autorefresh' => false,
             'ini_settings' => array(),
         );
         $settings = array_merge($defaults, $settings);
@@ -72,7 +72,9 @@ class Session extends \Slim\Middleware
     protected function startSession()
     {
         $inactive = session_id() === '';
-        if (!$inactive) return;
+        if (!$inactive) {
+            return;
+        }
 
         $settings = $this->settings;
         $name = $settings['name'];
