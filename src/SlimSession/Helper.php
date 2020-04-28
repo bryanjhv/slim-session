@@ -22,9 +22,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function get($key, $default = null)
     {
-        return $this->exists($key)
-            ? $_SESSION[$key]
-            : $default;
+        return $this->exists($key) ? $_SESSION[$key] : $default;
     }
 
     /**
