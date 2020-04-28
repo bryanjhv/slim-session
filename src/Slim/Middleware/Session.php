@@ -16,8 +16,8 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
  * for a session and it will be updated after each user activity or interaction
  * like an 'autorefresh' feature.
  *
- * Keep in mind this relies on PHP native sessions, so for this to work you
- * must have that enabled and correctly working.
+ * Keep in mind this relies on PHP native sessions, so for this to work you must
+ * have that enabled and correctly working.
  *
  * @package Slim\Middleware
  * @author  Bryan Horna
@@ -37,14 +37,14 @@ class Session
     public function __construct($settings = [])
     {
         $defaults = [
-            'lifetime'     => '20 minutes',
-            'path'         => '/',
-            'domain'       => null,
-            'secure'       => false,
-            'httponly'     => false,
-            'name'         => 'slim_session',
-            'autorefresh'  => false,
-            'handler'      => null,
+            'lifetime' => '20 minutes',
+            'path' => '/',
+            'domain' => null,
+            'secure' => false,
+            'httponly' => false,
+            'name' => 'slim_session',
+            'autorefresh' => false,
+            'handler' => null,
             'ini_settings' => [],
         ];
         $settings = array_merge($defaults, $settings);
@@ -71,8 +71,10 @@ class Session
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(Request $request, RequestHandler $handler): Response
-    {
+    public function __invoke(
+        Request $request,
+        RequestHandler $handler
+    ): Response {
         $this->startSession();
 
         return $handler->handle($request);
@@ -84,7 +86,9 @@ class Session
     protected function startSession()
     {
         $inactive = session_status() === PHP_SESSION_NONE;
-        if (!$inactive) return;
+        if (!$inactive) {
+            return;
+        }
 
         $settings = $this->settings;
         $name = $settings['name'];
@@ -116,7 +120,7 @@ class Session
         $handler = $settings['handler'];
         if ($handler) {
             if (!($handler instanceof \SessionHandlerInterface)) {
-                $handler = new $handler;
+                $handler = new $handler();
             }
             session_set_save_handler($handler, true);
         }
