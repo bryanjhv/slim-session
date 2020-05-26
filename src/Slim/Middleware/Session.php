@@ -85,8 +85,7 @@ class Session
      */
     protected function startSession()
     {
-        $inactive = session_status() === PHP_SESSION_NONE;
-        if (!$inactive) {
+        if (session_status() !== PHP_SESSION_NONE) {
             return;
         }
 
@@ -125,7 +124,7 @@ class Session
             session_set_save_handler($handler, true);
         }
 
-        session_cache_limiter(false);
+        session_cache_limiter('');
         session_start();
     }
 
