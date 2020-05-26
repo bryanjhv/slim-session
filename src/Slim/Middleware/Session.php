@@ -71,8 +71,7 @@ class Session extends \Slim\Middleware
      */
     protected function startSession()
     {
-        $inactive = session_id() === '';
-        if (!$inactive) {
+        if (session_id() !== '') {
             return;
         }
 
@@ -102,7 +101,7 @@ class Session extends \Slim\Middleware
         }
 
         session_name($name);
-        session_cache_limiter(false);
+        session_cache_limiter('');
         session_start();
     }
 
