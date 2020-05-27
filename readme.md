@@ -21,12 +21,14 @@ composer require bryanjhv/slim-session:~2.0
 ## Usage
 
 ```php
-$app = new \Slim\Slim;
-$app->add(new \Slim\Middleware\Session(array(
-  'name' => 'dummy_session',
-  'autorefresh' => true,
-  'lifetime' => '1 hour'
-)));
+$app = new \Slim\Slim();
+$app->add(
+  new \Slim\Middleware\Session(array(
+    'name' => 'dummy_session',
+    'autorefresh' => true,
+    'lifetime' => '1 hour',
+  ))
+);
 ```
 
 ### Supported options
@@ -43,10 +45,10 @@ $app->add(new \Slim\Middleware\Session(array(
   serious performance leaks (see #30):
   ```php
   array(
-      'session.gc_divisor'     => 1,
-      'session.gc_probability' => 1,
-      'session.gc_maxlifetime' => 30 * 24 * 60 * 60,
-  )
+    'session.gc_divisor' => 1,
+    'session.gc_probability' => 1,
+    'session.gc_maxlifetime' => 30 * 24 * 60 * 60,
+  );
   ```
 
 ## Session helper
@@ -56,7 +58,7 @@ A `Helper` class is available, which you can register globally or instantiate:
 ```php
 // Register globally to app
 $app->container->singleton('session', function () {
-  return new \SlimSession\Helper;
+  return new \SlimSession\Helper();
 });
 ```
 
@@ -65,7 +67,7 @@ That will provide `$app->session`, so you can do:
 ```php
 $app->get('/', function () use ($app) {
   // or $this->session if registered
-  $session = new \SlimSession\Helper;
+  $session = new \SlimSession\Helper();
 
   // Check if variable exists
   $exists = $session->exists('my_key');
@@ -85,7 +87,7 @@ $app->get('/', function () use ($app) {
   // Merge value recursively
   $app->session->merge('my_key', array('first' => 'value'));
   $session->merge('my_key', array('second' => array('a' => 'A')));
-  $letter_a = $session['my_key']['second']['a'];  // "A"
+  $letter_a = $session['my_key']['second']['a']; // "A"
 
   // Delete variable
   $session->delete('my_key');
