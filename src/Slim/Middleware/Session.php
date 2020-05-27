@@ -38,7 +38,7 @@ class Session
         $defaults = [
             'lifetime' => '20 minutes',
             'path' => '/',
-            'domain' => null,
+            'domain' => '',
             'secure' => false,
             'httponly' => false,
             'name' => 'slim_session',
