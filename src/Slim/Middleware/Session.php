@@ -35,7 +35,7 @@ class Session extends \Slim\Middleware
         $defaults = array(
             'lifetime' => '20 minutes',
             'path' => '/',
-            'domain' => null,
+            'domain' => '',
             'secure' => false,
             'httponly' => false,
             'name' => 'slim_session',
