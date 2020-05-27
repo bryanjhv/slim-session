@@ -9,6 +9,7 @@ namespace SlimSession;
  * and the session variables passed via $_SESSION superglobal.
  *
  * @package SlimSession
+ * @author  Bryan Horna
  */
 class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
 {
@@ -124,15 +125,11 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
             session_write_close();
 
             if (ini_get('session.use_cookies')) {
-                $params = session_get_cookie_params();
-                setcookie(
+                Cookie::set(
                     session_name(),
                     '',
                     time() - 4200,
-                    $params['path'],
-                    $params['domain'],
-                    $params['secure'],
-                    $params['httponly']
+                    session_get_cookie_params()
                 );
             }
         }

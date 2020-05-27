@@ -2,6 +2,7 @@
 
 namespace Slim\Middleware;
 
+use SlimSession\Cookie;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -41,6 +42,7 @@ class Session
             'domain' => '',
             'secure' => false,
             'httponly' => false,
+            'samesite' => '',
             'name' => 'slim_session',
             'autorefresh' => false,
             'handler' => null,
@@ -93,25 +95,16 @@ class Session
         $settings = $this->settings;
         $name = $settings['name'];
 
-        session_set_cookie_params(
-            $settings['lifetime'],
-            $settings['path'],
-            $settings['domain'],
-            $settings['secure'],
-            $settings['httponly']
-        );
+        Cookie::setup($settings);
 
         // Refresh session cookie when "inactive",
         // else PHP won't know we want this to refresh
         if ($settings['autorefresh'] && isset($_COOKIE[$name])) {
-            setcookie(
+            Cookie::set(
                 $name,
                 $_COOKIE[$name],
                 time() + $settings['lifetime'],
-                $settings['path'],
-                $settings['domain'],
-                $settings['secure'],
-                $settings['httponly']
+                $settings
             );
         }
 
