@@ -41,6 +41,8 @@ class Cookie
             $args['samesite'] = $samesite;
             if ($set) {
                 $args = [$set[0], $set[1], $args];
+            } else {
+                $args = [$args];
             }
         } else {
             if ($samesite) {
