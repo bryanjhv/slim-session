@@ -42,7 +42,7 @@ class Session
             'domain' => '',
             'secure' => false,
             'httponly' => false,
-            'samesite' => '',
+            'samesite' => 'Lax',
             'name' => 'slim_session',
             'autorefresh' => false,
             'handler' => null,

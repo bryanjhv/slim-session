@@ -39,7 +39,8 @@ $app->add(
 - `lifetime`: How much should the session last? Default `20 minutes`. Any
   argument that `strtotime` can parse is valid.
 - `path`, `domain`, `secure`, `httponly`, `samesite`: Options for the session
-  cookie. Please note that `samesite` is disabled by default.
+  cookie. Please note that `samesite` is `'Lax'` by default, set to `''` to
+  disable.
 - `name`: Name for the session cookie. Defaults to `slim_session` (instead of
   PHP's `PHPSESSID`).
 - **`autorefresh`**: `true` if you want session to be refresh when user activity
