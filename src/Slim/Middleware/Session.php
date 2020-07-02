@@ -40,7 +40,7 @@ class Session extends \Slim\Middleware
             'domain' => '',
             'secure' => false,
             'httponly' => false,
-            'samesite' => '',
+            'samesite' => 'Lax',
             'name' => 'slim_session',
             'autorefresh' => false,
             'ini_settings' => array(),
