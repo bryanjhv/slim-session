@@ -1,4 +1,4 @@
-# slim-session &nbsp;&nbsp;&nbsp; [![Donate][paybtn]][paylnk]
+# slim-session
 
 Simple middleware for [Slim Framework 4][slim], that allows managing PHP
 built-in sessions and includes a `Helper` class to help you with the `$_SESSION`
@@ -133,6 +133,3 @@ MIT
 [slim]: https://www.slimframework.com/docs/v4/
 [sesscfg]: https://www.php.net/manual/en/session.configuration.php
 [contributors]: https://github.com/bryanjhv/slim-session/graphs/contributors
-[paybtn]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif
-[paylnk]:
-  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DVB7SSMVSHGTN
