@@ -36,7 +36,7 @@ class Cookie
         );
 
         $new = PHP_VERSION_ID >= 70300;
-        $samesite = $params['samesite'];
+        $samesite = @$params['samesite'];
         if ($new) {
             $args['samesite'] = $samesite;
             if ($set) {
