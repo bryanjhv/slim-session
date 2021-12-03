@@ -17,11 +17,11 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * Get a session variable.
      *
      * @param string $key
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get($key, $default = null): mixed
     {
         return $this->exists($key) ? $_SESSION[$key] : $default;
     }
@@ -30,11 +30,11 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * Set a session variable.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return $this
      */
-    public function set($key, $value)
+    public function set($key, $value): self
     {
         $_SESSION[$key] = $value;
 
@@ -45,11 +45,11 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * Merge values recursively.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return $this
      */
-    public function merge($key, $value)
+    public function merge($key, $value): self
     {
         if (is_array($value) && is_array($old = $this->get($key))) {
             $value = array_merge_recursive($old, $value);
@@ -65,7 +65,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return $this
      */
-    public function delete($key)
+    public function delete($key): self
     {
         if ($this->exists($key)) {
             unset($_SESSION[$key]);
@@ -79,7 +79,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return $this
      */
-    public function clear()
+    public function clear(): self
     {
         $_SESSION = [];
 
@@ -93,7 +93,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return bool
      */
-    public function exists($key)
+    public function exists($key): bool
     {
         return array_key_exists($key, $_SESSION);
     }
@@ -105,7 +105,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return string
      */
-    public static function id($new = false)
+    public static function id($new = false): string
     {
         if ($new && session_id()) {
             session_regenerate_id(true);
@@ -142,7 +142,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return mixed
      */
-    public function __get($key)
+    public function __get($key): mixed
     {
         return $this->get($key);
     }
@@ -151,9 +151,9 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * Magic method for set.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
-    public function __set($key, $value)
+    public function __set($key, $value): void
     {
         $this->set($key, $value);
     }
@@ -175,7 +175,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return bool
      */
-    public function __isset($key)
+    public function __isset($key): bool
     {
         return $this->exists($key);
     }
@@ -185,7 +185,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($_SESSION);
     }
@@ -195,7 +195,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return \Traversable
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($_SESSION);
     }
@@ -207,7 +207,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return boolean
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->exists($offset);
     }
@@ -219,7 +219,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->get($offset);
     }
@@ -230,7 +230,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->set($offset, $value);
     }
@@ -240,7 +240,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->delete($offset);
     }
