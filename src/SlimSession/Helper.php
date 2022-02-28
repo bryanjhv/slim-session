@@ -21,7 +21,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get($key, $default = null) : mixed
     {
         return $this->exists($key) ? $_SESSION[$key] : $default;
     }
@@ -142,7 +142,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return mixed
      */
-    public function __get($key)
+    public function __get($key) : mixed
     {
         return $this->get($key);
     }
@@ -175,7 +175,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return bool
      */
-    public function __isset($key)
+    public function __isset($key) : bool
     {
         return $this->exists($key);
     }
@@ -185,7 +185,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return int
      */
-    public function count()
+    public function count() : int
     {
         return count($_SESSION);
     }
@@ -195,7 +195,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return \Traversable
      */
-    public function getIterator()
+    public function getIterator() : \Traversable
     {
         return new \ArrayIterator($_SESSION);
     }
@@ -207,7 +207,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return boolean
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset) : bool
     {
         return $this->exists($offset);
     }
@@ -219,7 +219,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset) : mixed
     {
         return $this->get($offset);
     }
@@ -230,7 +230,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value) : void
     {
         $this->set($offset, $value);
     }
@@ -240,7 +240,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset) : void
     {
         $this->delete($offset);
     }
