@@ -17,7 +17,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * Get a session variable.
      *
      * @param string $key
-     * @param mixed $default
+     * @param mixed  $default
      *
      * @return mixed
      */
@@ -30,7 +30,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * Set a session variable.
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return $this
      */
@@ -45,7 +45,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * Merge values recursively.
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return $this
      */
@@ -151,7 +151,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * Magic method for set.
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function __set($key, $value): void
     {
