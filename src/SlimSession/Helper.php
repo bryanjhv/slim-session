@@ -185,6 +185,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($_SESSION);
@@ -195,6 +196,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return \Traversable
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator($_SESSION);
@@ -207,6 +209,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return boolean
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return $this->exists($offset);
@@ -219,6 +222,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get($offset);
@@ -230,6 +234,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param mixed $offset
      * @param mixed $value
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
@@ -240,6 +245,7 @@ class Helper implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param mixed $offset
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $this->delete($offset);
