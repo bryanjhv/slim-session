@@ -80,7 +80,7 @@ class Session
     ): Response {
 
         if ($this->settings['autostart']) {
-        $this->startSession();
+            $this->startSession();
         }
 
         return $handler->handle($request);
@@ -89,8 +89,12 @@ class Session
     /**
      * Start session
      */
-    public function startSession()
+    public function startSession($sessionId=null)
     {
+        if ($sessionId) {
+            session_id($sessionId);
+        }
+
         if (session_status() !== PHP_SESSION_NONE) {
             return;
         }
