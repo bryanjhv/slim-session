@@ -133,4 +133,9 @@ class Session
             }
         }
     }
+
+    public function getSetting($settingKey)
+    {
+        return $this->settings[$settingKey] ?? null;
+    }
 }
