@@ -48,6 +48,7 @@ class Session
             'autorefresh' => false,
             'handler' => null,
             'ini_settings' => [],
+            'autostart' => true
         ];
         $settings = array_merge($defaults, $settings);
 
@@ -77,7 +78,10 @@ class Session
         Request $request,
         RequestHandler $handler
     ): Response {
+
+        if ($this->settings['autostart']) {
         $this->startSession();
+        }
 
         return $handler->handle($request);
     }
@@ -85,7 +89,7 @@ class Session
     /**
      * Start session
      */
-    protected function startSession()
+    public function startSession()
     {
         if (session_status() !== PHP_SESSION_NONE) {
             return;
